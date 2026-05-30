@@ -1,0 +1,91 @@
+/* FIFA GROUP Studio — clean source icons for template buttons */
+.fifaStudioPage .studioTemplates button > span{
+  position:relative !important;
+  width:30px !important;
+  height:30px !important;
+  min-width:30px !important;
+  display:grid !important;
+  place-items:center !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  color:currentColor !important;
+  -webkit-text-fill-color:currentColor !important;
+}
+
+.fifaStudioPage .studioTemplates button > span::before,
+.fifaStudioPage .studioTemplates button > span::after{
+  content:"";
+  position:absolute;
+  box-sizing:border-box;
+  pointer-events:none;
+}
+
+/* Champion / trophy */
+.fifaStudioPage .studioTemplates button:nth-child(1) > span::before{
+  width:18px;
+  height:14px;
+  top:5px;
+  border:2px solid currentColor;
+  border-top-width:5px;
+  border-radius:4px 4px 8px 8px;
+}
+.fifaStudioPage .studioTemplates button:nth-child(1) > span::after{
+  width:18px;
+  height:2px;
+  bottom:5px;
+  background:currentColor;
+  border-radius:999px;
+  box-shadow:0 -4px 0 -1px currentColor;
+}
+
+/* Match result / crossed lines */
+.fifaStudioPage .studioTemplates button:nth-child(2) > span::before,
+.fifaStudioPage .studioTemplates button:nth-child(2) > span::after{
+  width:3px;
+  height:25px;
+  top:2px;
+  left:13px;
+  border-radius:999px;
+  background:currentColor;
+  transform:rotate(45deg);
+}
+.fifaStudioPage .studioTemplates button:nth-child(2) > span::after{
+  transform:rotate(-45deg);
+}
+
+/* Transfer / directional exchange */
+.fifaStudioPage .studioTemplates button:nth-child(3) > span::before{
+  width:22px;
+  height:14px;
+  top:8px;
+  border-top:3px solid currentColor;
+  border-bottom:3px solid currentColor;
+}
+.fifaStudioPage .studioTemplates button:nth-child(3) > span::after{
+  width:8px;
+  height:8px;
+  top:5px;
+  right:3px;
+  border-top:3px solid currentColor;
+  border-right:3px solid currentColor;
+  transform:rotate(45deg);
+  box-shadow:-16px 11px 0 -2px currentColor;
+}
+
+/* Member card */
+.fifaStudioPage .studioTemplates button:nth-child(4) > span::before{
+  width:24px;
+  height:18px;
+  top:6px;
+  border:2px solid currentColor;
+  border-radius:5px;
+}
+.fifaStudioPage .studioTemplates button:nth-child(4) > span::after{
+  width:11px;
+  height:2px;
+  right:5px;
+  top:13px;
+  background:currentColor;
+  border-radius:999px;
+  box-shadow:0 5px 0 currentColor;
+}

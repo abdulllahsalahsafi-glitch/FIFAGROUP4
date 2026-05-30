@@ -1,0 +1,403 @@
+/* ═══════════════════════════════════════════════════════════
+   FIFA GROUP — UNIFIED PAGE HEADERS  v6.0
+   ═══════════════════════════════════════════════════════════
+   مبدأ التوحيد:
+   • كل header.pageHead في كل صفحة يرث نفس التصميم تمامًا.
+   • لا selectors مرتبطة بالـ parent class — القاعدة تطبّق دائمًا.
+   • هذا الملف يُستورد أخيرًا في main.jsx ليفوز على كل شيء قبله.
+   ─────────────────────────────────────────────────────────── */
+
+/* ── 0. متغيرات الهيدر ──────────────────────────────────── */
+:root {
+  --ph-h:          130px;
+  --ph-radius:     26px;
+  --ph-px:         22px;
+  --ph-title-sz:   clamp(26px, 6.5vw, 36px);
+  --ph-sub-sz:     clamp(12px, 3vw, 14px);
+
+  --ph-bg-start:   rgba(3, 9, 22, 0.97);
+  --ph-bg-end:     rgba(2, 5, 15, 0.95);
+  --ph-green:      #00E676;
+  --ph-cyan:       #00D4FF;
+  --ph-violet:     rgba(168, 85, 247, 0.09);
+  --ph-border:     rgba(0, 230, 118, 0.24);
+  --ph-glow:       rgba(0, 230, 118, 0.12);
+  --ph-title-col:  #00E676;
+  --ph-sub-col:    #9BA0C0;
+
+  --sh-title-sz:   clamp(20px, 5vw, 27px);
+}
+
+/* ── 1. هيكل الهيدر الأساسي ────────────────────────────── */
+header.pageHead {
+  position:         relative !important;
+  display:          flex !important;
+  flex-direction:   column !important;
+  align-items:      flex-end !important;
+  justify-content:  center !important;
+  gap:              10px !important;
+  text-align:       right !important;
+
+  width:            100% !important;
+  min-height:       var(--ph-h) !important;
+  box-sizing:       border-box !important;
+  padding:          0 var(--ph-px) !important;
+  margin-bottom:    18px !important;
+  overflow:         hidden !important;
+  border-radius:    var(--ph-radius) !important;
+
+  background:
+    radial-gradient(ellipse at 88% -10%, rgba(0,230,118,0.20), transparent 46%),
+    radial-gradient(ellipse at  5% 110%, rgba(0,212,255,0.09), transparent 44%),
+    radial-gradient(ellipse at 50%  60%, var(--ph-violet),      transparent 54%),
+    linear-gradient(150deg, var(--ph-bg-start), var(--ph-bg-end)) !important;
+
+  border:           1px solid var(--ph-border) !important;
+  box-shadow:
+    0  2px  1px rgba(255,255,255,0.05) inset,
+    0 14px 40px rgba(0,0,0,0.44),
+    0  0  28px var(--ph-glow) !important;
+
+  animation: phSlideIn 0.38s cubic-bezier(.22,.9,.22,1) both;
+}
+
+/* ── 2. طبقة التألق (shimmer) ──────────────────────────── */
+header.pageHead::before {
+  content:          "" !important;
+  position:         absolute !important;
+  inset:            0 !important;
+  pointer-events:   none !important;
+  border-radius:    inherit !important;
+  background:
+    linear-gradient(
+      108deg,
+      transparent 30%,
+      rgba(255,255,255,0.032) 50%,
+      transparent 70%
+    ),
+    radial-gradient(ellipse at 15% 8%, rgba(168,85,247,0.07), transparent 38%) !important;
+}
+
+/* ── 3. الخط المضيء السفلي ──────────────────────────────── */
+header.pageHead::after {
+  content:          "" !important;
+  position:         absolute !important;
+  bottom:           22px !important;
+  right:            var(--ph-px) !important;
+  width:            44px !important;
+  height:           3px !important;
+  border-radius:    999px !important;
+  background:       linear-gradient(90deg, var(--ph-green), var(--ph-cyan)) !important;
+  box-shadow:       0 0 18px rgba(0,230,118,0.40) !important;
+  pointer-events:   none !important;
+}
+
+/* ── 4. عناوين الهيدر ───────────────────────────────────── */
+header.pageHead h1,
+header.pageHead h2,
+header.pageHead h3 {
+  position:         relative !important;
+  z-index:          1 !important;
+  margin:           0 !important;
+  padding:          0 !important;
+  width:            100% !important;
+  font-family:      var(--fg-font) !important;
+  font-size:        var(--ph-title-sz) !important;
+  font-weight:      900 !important;
+  line-height:      1.12 !important;
+  letter-spacing:   -0.025em !important;
+  color:            var(--ph-title-col) !important;
+  background:       none !important;
+  -webkit-text-fill-color: var(--ph-title-col) !important;
+  text-align:       right !important;
+  text-shadow:      0 0 32px rgba(0,230,118,0.14) !important;
+}
+
+header.pageHead h1::after,
+header.pageHead h2::after,
+header.pageHead h3::after {
+  display:          none !important;
+  content:          none !important;
+}
+
+/* ── 5. النص الفرعي ─────────────────────────────────────── */
+header.pageHead p {
+  position:         relative !important;
+  z-index:          1 !important;
+  margin:           0 !important;
+  padding:          0 !important;
+  width:            100% !important;
+  max-width:        none !important;
+  font-family:      var(--fg-font) !important;
+  font-size:        var(--ph-sub-sz) !important;
+  font-weight:      700 !important;
+  line-height:      1.60 !important;
+  color:            var(--ph-sub-col) !important;
+  text-align:       right !important;
+}
+
+/* ── 6. العناصر الأخرى داخل الهيدر ─────────────────────── */
+header.pageHead span {
+  position:         relative !important;
+  z-index:          1 !important;
+}
+
+header.pageHead img {
+  display:          none !important;
+}
+
+/* ── 7. animation ────────────────────────────────────────── */
+@keyframes phSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION HEADS — رؤوس الأقسام الداخلية
+   ─────────────────────────────────────────────────────────── */
+
+.sectionHead {
+  display:          flex !important;
+  align-items:      flex-start !important;
+  justify-content:  space-between !important;
+  gap:              12px !important;
+  margin-bottom:    14px !important;
+}
+
+.sectionHead h3 {
+  margin:           0 !important;
+  font-family:      var(--fg-font) !important;
+  font-size:        var(--sh-title-sz) !important;
+  font-weight:      900 !important;
+  line-height:      1.2 !important;
+  color:            #EDF0FF !important;
+}
+
+.sectionHead p {
+  margin:           5px 0 0 !important;
+  font-size:        13px !important;
+  font-weight:      700 !important;
+  color:            #9BA0C0 !important;
+  line-height:      1.5 !important;
+}
+
+.sectionHead.compact {
+  margin-bottom:    0 !important;
+}
+
+.sectionHead.compact h3 {
+  font-size:        clamp(17px, 4.5vw, 22px) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   membersHomeHead — موحّد مع pageHead تمامًا
+   ─────────────────────────────────────────────────────────── */
+
+.membersHomeHead {
+  position:         relative !important;
+  overflow:         hidden !important;
+  width:            100% !important;
+  min-height:       var(--ph-h) !important;
+  box-sizing:       border-box !important;
+  padding:          0 var(--ph-px) !important;
+  margin-bottom:    16px !important;
+  border-radius:    var(--ph-radius) !important;
+  display:          flex !important;
+  flex-direction:   column !important;
+  align-items:      flex-end !important;
+  justify-content:  center !important;
+  gap:              10px !important;
+  text-align:       right !important;
+  background:
+    radial-gradient(ellipse at 88% -10%, rgba(0,230,118,0.20), transparent 46%),
+    radial-gradient(ellipse at  5% 110%, rgba(0,212,255,0.09), transparent 44%),
+    radial-gradient(ellipse at 50%  60%, rgba(168,85,247,0.09), transparent 54%),
+    linear-gradient(150deg, rgba(3,9,22,0.97), rgba(2,5,15,0.95)) !important;
+  border:           1px solid rgba(0,230,118,0.24) !important;
+  box-shadow:
+    0  2px  1px rgba(255,255,255,0.05) inset,
+    0 14px 40px rgba(0,0,0,0.44),
+    0  0  28px rgba(0,230,118,0.12) !important;
+}
+
+.membersHomeHead::before {
+  content:          "" !important;
+  position:         absolute !important;
+  inset:            0 !important;
+  pointer-events:   none !important;
+  background:
+    linear-gradient(108deg, transparent 30%, rgba(255,255,255,0.032) 50%, transparent 70%),
+    radial-gradient(ellipse at 15% 8%, rgba(168,85,247,0.07), transparent 38%) !important;
+}
+
+.membersHomeHead::after {
+  content:          "" !important;
+  position:         absolute !important;
+  bottom:           22px !important;
+  right:            var(--ph-px) !important;
+  width:            44px !important;
+  height:           3px !important;
+  border-radius:    999px !important;
+  background:       linear-gradient(90deg, #00E676, #00D4FF) !important;
+  box-shadow:       0 0 18px rgba(0,230,118,0.40) !important;
+  pointer-events:   none !important;
+}
+
+.membersHomeHead h1,
+.membersHomeHead h2,
+.membersHomeHead h3 {
+  position:         relative !important;
+  z-index:          1 !important;
+  margin:           0 !important;
+  padding:          0 !important;
+  width:            100% !important;
+  font-size:        var(--ph-title-sz) !important;
+  font-weight:      900 !important;
+  color:            #00E676 !important;
+  -webkit-text-fill-color: #00E676 !important;
+  text-align:       right !important;
+  text-shadow:      0 0 32px rgba(0,230,118,0.14) !important;
+}
+
+.membersHomeHead h1::after,
+.membersHomeHead h2::after,
+.membersHomeHead h3::after {
+  display:          none !important;
+  content:          none !important;
+}
+
+.membersHomeHead p {
+  position:         relative !important;
+  z-index:          1 !important;
+  margin:           0 !important;
+  font-size:        var(--ph-sub-sz) !important;
+  font-weight:      700 !important;
+  color:            #9BA0C0 !important;
+  text-align:       right !important;
+}
+
+.membersHomeHead span {
+  position:         relative !important;
+  z-index:          1 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   seasonHubHero — موحّد
+   ─────────────────────────────────────────────────────────── */
+
+.seasonHubHero {
+  position:         relative !important;
+  overflow:         hidden !important;
+  width:            100% !important;
+  min-height:       var(--ph-h) !important;
+  box-sizing:       border-box !important;
+  padding:          0 var(--ph-px) !important;
+  margin-bottom:    18px !important;
+  border-radius:    var(--ph-radius) !important;
+  display:          flex !important;
+  flex-direction:   column !important;
+  align-items:      flex-end !important;
+  justify-content:  center !important;
+  gap:              10px !important;
+  text-align:       right !important;
+  background:
+    radial-gradient(ellipse at 88% -10%, rgba(0,230,118,0.20), transparent 46%),
+    radial-gradient(ellipse at  5% 110%, rgba(0,212,255,0.09), transparent 44%),
+    radial-gradient(ellipse at 50%  60%, rgba(168,85,247,0.09), transparent 54%),
+    linear-gradient(150deg, rgba(3,9,22,0.97), rgba(2,5,15,0.95)) !important;
+  border:           1px solid rgba(0,230,118,0.24) !important;
+  box-shadow:
+    0  2px  1px rgba(255,255,255,0.05) inset,
+    0 14px 40px rgba(0,0,0,0.44),
+    0  0  28px rgba(0,230,118,0.12) !important;
+}
+
+.seasonHubHero::before {
+  content:          "" !important;
+  position:         absolute !important;
+  inset:            0 !important;
+  pointer-events:   none !important;
+  background:
+    linear-gradient(108deg, transparent 30%, rgba(255,255,255,0.032) 50%, transparent 70%),
+    radial-gradient(ellipse at 15% 8%, rgba(168,85,247,0.07), transparent 38%) !important;
+}
+
+.seasonHubHero::after {
+  content:          "" !important;
+  position:         absolute !important;
+  bottom:           22px !important;
+  right:            var(--ph-px) !important;
+  width:            44px !important;
+  height:           3px !important;
+  border-radius:    999px !important;
+  background:       linear-gradient(90deg, #00E676, #00D4FF) !important;
+  box-shadow:       0 0 18px rgba(0,230,118,0.40) !important;
+  pointer-events:   none !important;
+}
+
+.seasonHubHero h1,
+.seasonHubHero h2,
+.seasonHubHero h3 {
+  position:         relative !important;
+  z-index:          1 !important;
+  margin:           0 !important;
+  padding:          0 !important;
+  width:            100% !important;
+  font-size:        var(--ph-title-sz) !important;
+  font-weight:      900 !important;
+  color:            #00E676 !important;
+  -webkit-text-fill-color: #00E676 !important;
+  text-align:       right !important;
+  text-shadow:      0 0 32px rgba(0,230,118,0.14) !important;
+}
+
+.seasonHubHero h1::after,
+.seasonHubHero h2::after,
+.seasonHubHero h3::after {
+  display:          none !important;
+  content:          none !important;
+}
+
+.seasonHubHero p {
+  position:         relative !important;
+  z-index:          1 !important;
+  margin:           0 !important;
+  font-size:        var(--ph-sub-sz) !important;
+  font-weight:      700 !important;
+  color:            #9BA0C0 !important;
+  text-align:       right !important;
+}
+
+.seasonHubHero img {
+  display:          none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 720px) {
+  :root {
+    --ph-h:        118px;
+    --ph-radius:   22px;
+    --ph-px:       18px;
+    --ph-title-sz: clamp(23px, 6.5vw, 30px);
+    --ph-sub-sz:   12px;
+    --sh-title-sz: clamp(18px, 5vw, 22px);
+  }
+
+  header.pageHead,
+  .membersHomeHead,
+  .seasonHubHero {
+    gap:  8px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --ph-h:        110px;
+    --ph-px:       16px;
+    --ph-title-sz: clamp(21px, 6vw, 26px);
+    --ph-sub-sz:   11px;
+  }
+}

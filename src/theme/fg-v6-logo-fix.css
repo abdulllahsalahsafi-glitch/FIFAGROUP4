@@ -1,0 +1,6 @@
+.hp2HeroLogo{display:none!important}
+.hp2HeroTop{position:relative!important}
+.hp2HeroTop::after{content:'FG'!important;width:52px!important;height:52px!important;border-radius:17px!important;display:grid!important;place-items:center!important;background:linear-gradient(135deg,#00E676,#00D4FF)!important;color:#020617!important;font-family:Orbitron,Tajawal,sans-serif!important;font-weight:1000!important;font-size:22px!important;letter-spacing:-1px!important;box-shadow:0 0 46px rgba(0,230,118,.32),0 14px 30px rgba(0,0,0,.30)!important;border:1px solid rgba(255,255,255,.12)!important;line-height:1!important;flex:0 0 auto!important}
+.topSystemFgLogo{width:30px!important;height:30px!important;border-radius:10px!important;display:inline-grid!important;place-items:center!important;margin-left:8px!important;background:linear-gradient(135deg,#00E676,#00D4FF)!important;color:#020617!important;font-family:Orbitron,Tajawal,sans-serif!important;font-size:12px!important;font-weight:1000!important}
+.topSystemTitle{display:inline-flex!important;align-items:center!important;gap:8px!important;font-family:Orbitron,Tajawal,sans-serif!important}
+.topNotifyBtn svg,.topSystemBackBtn svg{stroke:#00E676!important}

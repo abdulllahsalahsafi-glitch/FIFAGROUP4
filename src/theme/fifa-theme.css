@@ -1,0 +1,328 @@
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  FIFA GROUP — UNIFIED THEME v6.0 · 2026                          ║
+   ║  Palette A · Refined. Tajawal + Orbitron bundled locally.        ║
+   ║  Single source of truth.                                         ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ─── Bundled fonts (replace Google Fonts CDN) ──────────────────── */
+/* Files live in public/fonts/ — Vite serves them at /fonts/*.ttf  */
+
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:200; font-display:swap; src:url('/fonts/Tajawal-ExtraLight.ttf') format('truetype'); }
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:300; font-display:swap; src:url('/fonts/Tajawal-Light.ttf')      format('truetype'); }
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/Tajawal-Regular.ttf')    format('truetype'); }
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/Tajawal-Medium.ttf')     format('truetype'); }
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:700; font-display:swap; src:url('/fonts/Tajawal-Bold.ttf')       format('truetype'); }
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:800; font-display:swap; src:url('/fonts/Tajawal-ExtraBold.ttf')  format('truetype'); }
+@font-face { font-family:'Tajawal'; font-style:normal; font-weight:900; font-display:swap; src:url('/fonts/Tajawal-Black.ttf')      format('truetype'); }
+
+@font-face { font-family:'Orbitron'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/Orbitron-Regular.ttf')   format('truetype'); }
+@font-face { font-family:'Orbitron'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/Orbitron-Medium.ttf')    format('truetype'); }
+@font-face { font-family:'Orbitron'; font-style:normal; font-weight:600; font-display:swap; src:url('/fonts/Orbitron-SemiBold.ttf')  format('truetype'); }
+@font-face { font-family:'Orbitron'; font-style:normal; font-weight:700; font-display:swap; src:url('/fonts/Orbitron-Bold.ttf')      format('truetype'); }
+@font-face { font-family:'Orbitron'; font-style:normal; font-weight:800; font-display:swap; src:url('/fonts/Orbitron-ExtraBold.ttf') format('truetype'); }
+@font-face { font-family:'Orbitron'; font-style:normal; font-weight:900; font-display:swap; src:url('/fonts/Orbitron-Black.ttf')     format('truetype'); }
+
+:root{
+  /* ── BRAND · Palette A · Refined ───────────────────── */
+  --fg-green:        #00E676;
+  --fg-green-2:      #00B84C;
+  --fg-green-soft:   rgba(0,230,118,.10);
+  --fg-green-bdr:    rgba(0,230,118,.25);
+  --fg-green-glow:   rgba(0,230,118,.32);
+  --fg-cyan:         #00D4FF;
+  --fg-violet:       #A855F7;
+  --fg-red:          #E63946;   /* ⬅ was #FF4757 — deeper broadcast red */
+  --fg-gold:         #E5B53A;   /* ⬅ was #FFD700 — champagne, not neon */
+
+  /* ── SURFACES ──────────────────────────────────────── */
+  --fg-bg:           #02030A;
+  --fg-bg-2:         #05080F;
+  --fg-hero-1:       #040C1C;
+  --fg-hero-2:       #081830;
+  --fg-card:         rgba(255,255,255,.032);
+  --fg-card-bdr:     rgba(255,255,255,.07);
+  --fg-card-deep:    rgba(2,6,23,.44);
+
+  /* ── TEXT ──────────────────────────────────────────── */
+  --fg-text:         #EDF0FF;
+  --fg-text-2:       #C7CCE3;
+  --fg-sub:          #9BA0C0;
+  --fg-sub-2:        #6270A0;
+  --fg-ink:          #020617;
+
+  /* ── TYPE SCALE (UNIFIED) ──────────────────────────── */
+  --fg-font:         'Tajawal', system-ui, sans-serif;
+  --fg-font-display: 'Orbitron', 'Tajawal', sans-serif;
+  --fg-fs-9:    9px;
+  --fg-fs-10:   10px;
+  --fg-fs-12:   12px;
+  --fg-fs-13:   13px;
+  --fg-fs-15:   15px;
+  --fg-fs-17:   17px;
+  --fg-fs-22:   22px;
+  --fg-fs-28:   28px;
+
+  /* ── SPACING ──────────────────────────────────────── */
+  --fg-sp-1: 4px;
+  --fg-sp-2: 8px;
+  --fg-sp-3: 12px;
+  --fg-sp-4: 16px;
+  --fg-sp-5: 20px;
+  --fg-sp-6: 24px;
+
+  /* ── RADIUS ───────────────────────────────────────── */
+  --fg-r-sm: 8px;
+  --fg-r-md: 14px;
+  --fg-r-lg: 20px;
+  --fg-r-xl: 28px;
+  --fg-r-pill: 999px;
+
+  /* ── ELEVATION ────────────────────────────────────── */
+  --fg-shadow-1: 0 4px 16px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.05);
+  --fg-shadow-2: 0 14px 40px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
+  --fg-shadow-3: 0 20px 60px rgba(0,0,0,.50), inset 0 1px 0 rgba(255,255,255,.10);
+  --fg-shadow-cta: 0 8px 24px rgba(0,230,118,.32);
+  --fg-shadow-glow: 0 0 22px rgba(0,230,118,.18);
+
+  /* ── MOTION ───────────────────────────────────────── */
+  --fg-ease: cubic-bezier(.2,.9,.2,1);
+  --fg-dur-fast: 180ms;
+  --fg-dur:      280ms;
+  --fg-dur-slow: 460ms;
+}
+
+/* ── UNIFIED FONT ─────────────────────────────────── */
+html, body, #root, .app,
+button, input, select, textarea,
+h1, h2, h3, h4, h5, p, span, div, label, li,
+.moneyTransferModal, .playerOfferModal, .notificationsModal,
+.sideDrawer, .infoModal, .mainNav, .navBtn{
+  font-family: var(--fg-font) !important;
+}
+
+/* ── KEYFRAMES (red rgba updated to #E63946 = 230,57,70) ── */
+@keyframes fgIn       { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fgCardIn   { from{opacity:0;transform:translateY(12px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes fgFloat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes fgGlow     { 0%,100%{box-shadow:0 0 8px rgba(0,230,118,.20)} 50%{box-shadow:0 0 22px rgba(0,230,118,.50)} }
+@keyframes fgScan     { 0%,100%{top:0;opacity:0} 50%{top:100%;opacity:.7} }
+@keyframes fgShine    { 0%,100%{transform:translateX(-100%) skewX(-15deg)} 50%{transform:translateX(180%) skewX(-15deg)} }
+@keyframes fgShimmer  { 0%{background-position:-200% center} 100%{background-position:200% center} }
+@keyframes fgLiveDot  { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(230,57,70,.45)} 50%{opacity:.55;box-shadow:0 0 0 6px transparent} }
+@keyframes fgBounce   { 0%,100%{transform:translateY(0)} 25%,75%{transform:translateY(-4px)} }
+@keyframes fgFill     { from{width:0} to{width:100%} }
+@keyframes fgFade     { 0%{opacity:1} 85%{opacity:1} 100%{opacity:0;pointer-events:none} }
+@keyframes fgPulseDot { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+/* ===== SAFE THEME PHASE 2: MEMBERS PAGE ONLY =====
+   Scope is limited to the existing MembersPage classes:
+   .membersHome, .membersHomeHead, .seasonMembersGrid, .seasonMemberCard.
+   No React/Firestore/Sheets logic changes. */
+.membersHome{
+  display:grid !important;
+  gap:var(--fg-sp-4) !important;
+  padding:var(--fg-sp-1) 0 18px !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.membersHomeHead{
+  position:relative !important;
+  overflow:hidden !important;
+  border-radius:var(--fg-r-xl) !important;
+  padding:20px !important;
+  text-align:right !important;
+  background:
+    radial-gradient(circle at 86% 0%, rgba(0,230,118,.16), transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(0,212,255,.08), transparent 44%),
+    linear-gradient(145deg, rgba(4,12,28,.94), rgba(3,7,18,.92)) !important;
+  border:1px solid var(--fg-green-bdr) !important;
+  box-shadow:var(--fg-shadow-2), var(--fg-shadow-glow) !important;
+}
+
+.membersHomeHead::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg, transparent, rgba(255,255,255,.035), transparent),
+    radial-gradient(circle at 20% 0%, rgba(168,85,247,.08), transparent 38%);
+}
+
+.membersHomeHead h2{
+  position:relative !important;
+  margin:0 0 8px !important;
+  font-size:clamp(25px, 7vw, 34px) !important;
+  line-height:1.05 !important;
+  font-weight:900 !important;
+  color:var(--fg-text) !important;
+  text-shadow:0 0 24px rgba(0,230,118,.16) !important;
+}
+
+.membersHomeHead h2::after{
+  content:"";
+  display:block;
+  width:42px;
+  height:3px;
+  margin-top:10px;
+  margin-inline-start:auto;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--fg-green), var(--fg-cyan));
+  box-shadow:0 0 16px rgba(0,230,118,.34);
+}
+
+.membersHomeHead p{
+  position:relative !important;
+  margin:0 !important;
+  max-width:560px !important;
+  color:var(--fg-text-2) !important;
+  font-size:var(--fg-fs-13) !important;
+  line-height:1.65 !important;
+  font-weight:800 !important;
+}
+
+.seasonMembersGrid{
+  display:grid !important;
+  gap:10px !important;
+}
+
+.seasonMemberCard{
+  position:relative !important;
+  isolation:isolate !important;
+  width:100% !important;
+  min-height:76px !important;
+  padding:10px 12px !important;
+  border-radius:22px !important;
+  overflow:hidden !important;
+  display:grid !important;
+  grid-template-columns:auto auto 1fr auto !important;
+  align-items:center !important;
+  gap:10px !important;
+  text-align:right !important;
+  color:var(--fg-text) !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.10), transparent 32%),
+    linear-gradient(135deg, rgba(6,13,27,.90), rgba(4,8,18,.84)) !important;
+  border:1px solid rgba(255,255,255,.075) !important;
+  box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.055) !important;
+  backdrop-filter:blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
+  transform:none !important;
+  transition:border-color var(--fg-dur-fast) var(--fg-ease), background var(--fg-dur-fast) var(--fg-ease) !important;
+}
+
+.seasonMemberCard::before{
+  content:"";
+  position:absolute;
+  inset-inline-end:0;
+  top:16px;
+  bottom:16px;
+  width:3px;
+  border-radius:999px;
+  background:linear-gradient(var(--fg-green), var(--fg-cyan));
+  box-shadow:0 0 14px rgba(0,230,118,.42);
+  opacity:.8;
+}
+
+.seasonMemberCard:active{
+  border-color:rgba(0,230,118,.24) !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.16), transparent 34%),
+    linear-gradient(135deg, rgba(6,17,30,.94), rgba(4,9,18,.88)) !important;
+}
+
+.seasonMemberCard .seasonMemberRank,
+.seasonMemberRank{
+  width:34px !important;
+  height:34px !important;
+  min-width:34px !important;
+  border-radius:13px !important;
+  display:grid !important;
+  place-items:center !important;
+  color:var(--fg-green) !important;
+  background:rgba(0,230,118,.09) !important;
+  border:1px solid rgba(0,230,118,.22) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055) !important;
+  font-size:var(--fg-fs-12) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+}
+
+.seasonMemberCard img{
+  width:50px !important;
+  height:50px !important;
+  min-width:50px !important;
+  border-radius:18px !important;
+  object-fit:cover !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  box-shadow:0 0 16px rgba(0,212,255,.12) !important;
+  background:rgba(255,255,255,.035) !important;
+}
+
+.seasonMemberCard div{ min-width:0 !important; }
+
+.seasonMemberCard b{
+  display:block !important;
+  color:var(--fg-text) !important;
+  font-size:17px !important;
+  line-height:1.25 !important;
+  font-weight:900 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.seasonMemberCard small{
+  display:block !important;
+  margin-top:3px !important;
+  color:var(--fg-sub) !important;
+  font-size:var(--fg-fs-12) !important;
+  line-height:1.35 !important;
+  font-weight:800 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.seasonMemberCard em{
+  min-width:58px !important;
+  height:32px !important;
+  padding:0 10px !important;
+  border-radius:var(--fg-r-pill) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:4px !important;
+  font-style:normal !important;
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 20px rgba(0,230,118,.18) !important;
+  font-size:var(--fg-fs-12) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+}
+
+@media(max-width:430px){
+  .membersHomeHead{ border-radius:26px !important; padding:18px !important; }
+  .membersHomeHead h2{ font-size:28px !important; }
+  .membersHomeHead p{ font-size:12px !important; }
+  .seasonMemberCard{
+    min-height:72px !important;
+    border-radius:20px !important;
+    padding:9px 10px !important;
+    grid-template-columns:auto auto 1fr auto !important;
+    gap:8px !important;
+  }
+  .seasonMemberCard img{
+    width:46px !important; height:46px !important; min-width:46px !important;
+    border-radius:16px !important;
+  }
+  .seasonMemberCard b{ font-size:16px !important; }
+  .seasonMemberCard em{
+    min-width:50px !important; height:30px !important;
+    padding:0 8px !important; font-size:11px !important;
+  }
+}

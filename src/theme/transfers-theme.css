@@ -1,0 +1,375 @@
+/* FIFA GROUP — Transfers Market Theme
+   Visual polish for TransfersPage.
+   Page header styles now handled by unified-page-headers.css */
+
+/* Page shell is scoped through unique transfer descendants. */
+.widePage:has(.transferList),
+.widePage:has(.freeAgentsTransferSection){
+  display:grid !important;
+  gap:14px !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.widePage:has(.transferList) > .tabs,
+.widePage:has(.freeAgentsTransferSection) > .tabs,
+.freeAgentFilters{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  gap:7px !important;
+  overflow-x:auto !important;
+  padding:2px 0 4px !important;
+  scrollbar-width:none !important;
+}
+
+.widePage:has(.transferList) > .tabs::-webkit-scrollbar,
+.widePage:has(.freeAgentsTransferSection) > .tabs::-webkit-scrollbar,
+.freeAgentFilters::-webkit-scrollbar{display:none !important;}
+
+.widePage:has(.transferList) .tabBtn,
+.widePage:has(.freeAgentsTransferSection) .tabBtn,
+.freeAgentFilters .tabBtn{
+  min-height:38px !important;
+  flex:0 0 auto !important;
+  border-radius:999px !important;
+  padding:0 13px !important;
+  color:var(--fg-text-2) !important;
+  background:rgba(255,255,255,.045) !important;
+  border:1px solid rgba(255,255,255,.075) !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+.widePage:has(.transferList) .tabBtn.active,
+.widePage:has(.freeAgentsTransferSection) .tabBtn.active,
+.freeAgentFilters .tabBtn.active{
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  border-color:rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 20px rgba(0,230,118,.18) !important;
+}
+
+.transferSearchBox{
+  position:relative !important;
+  overflow:hidden !important;
+  display:grid !important;
+  gap:8px !important;
+  border-radius:22px !important;
+  padding:13px !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.10), transparent 34%),
+    linear-gradient(135deg, rgba(6,13,27,.90), rgba(4,8,18,.84)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 10px 28px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.055) !important;
+}
+
+.transferSearchBox span{
+  color:var(--fg-sub) !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+}
+
+.transferSearchBox input{
+  width:100% !important;
+  height:44px !important;
+  border-radius:16px !important;
+  padding:0 13px !important;
+  color:var(--fg-text) !important;
+  background:rgba(2,6,23,.48) !important;
+  border:1px solid rgba(255,255,255,.085) !important;
+  outline:none !important;
+  font-size:13px !important;
+  font-weight:800 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+
+.transferSearchBox input:focus{
+  border-color:rgba(0,230,118,.34) !important;
+  box-shadow:0 0 0 3px rgba(0,230,118,.08), inset 0 1px 0 rgba(255,255,255,.055) !important;
+}
+
+.transferList{
+  display:grid !important;
+  gap:10px !important;
+}
+
+.transferCard{
+  position:relative !important;
+  isolation:isolate !important;
+  overflow:hidden !important;
+  min-height:118px !important;
+  border-radius:24px !important;
+  padding:12px !important;
+  display:grid !important;
+  grid-template-columns:auto 1fr auto !important;
+  align-items:center !important;
+  gap:11px !important;
+  color:var(--fg-text) !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.10), transparent 32%),
+    linear-gradient(135deg, rgba(6,13,27,.92), rgba(4,8,18,.86)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.055) !important;
+  backdrop-filter:blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
+}
+
+.transferCard::before{
+  content:"";
+  position:absolute;
+  inset-inline-end:0;
+  top:16px;
+  bottom:16px;
+  width:3px;
+  border-radius:999px;
+  background:linear-gradient(var(--fg-green), var(--fg-cyan));
+  box-shadow:0 0 14px rgba(0,230,118,.38);
+  opacity:.78;
+}
+
+.transferAvatar{
+  width:58px !important;
+  height:58px !important;
+  min-width:58px !important;
+  border-radius:19px !important;
+  object-fit:cover !important;
+  background:rgba(255,255,255,.045) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  box-shadow:0 0 16px rgba(0,212,255,.12), 0 12px 26px rgba(0,0,0,.25) !important;
+}
+
+.fallbackTransferAvatar{
+  padding:8px !important;
+  object-fit:contain !important;
+}
+
+.transferMain{
+  min-width:0 !important;
+}
+
+.transferMain h3{
+  margin:0 !important;
+  color:var(--fg-text) !important;
+  font-size:17px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.transferMain p{
+  display:flex !important;
+  align-items:center !important;
+  gap:6px !important;
+  margin:5px 0 0 !important;
+  color:var(--fg-sub) !important;
+  font-size:12px !important;
+  line-height:1.25 !important;
+  font-weight:800 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+}
+
+.transferMain p span{
+  min-width:0 !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.transferMain p b{
+  color:var(--fg-green) !important;
+  font-size:13px !important;
+  line-height:1 !important;
+}
+
+.transferRating{
+  width:38px !important;
+  height:38px !important;
+  border-radius:15px !important;
+  display:grid !important;
+  place-items:center !important;
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 20px rgba(0,230,118,.18) !important;
+  font-size:14px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+}
+
+.transferBadges{
+  grid-column:1 / -1 !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:6px !important;
+  margin-top:2px !important;
+}
+
+.transferBadges small{
+  min-height:29px !important;
+  max-width:100% !important;
+  padding:0 9px !important;
+  border-radius:999px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:5px !important;
+  color:var(--fg-text-2) !important;
+  background:rgba(255,255,255,.052) !important;
+  border:1px solid rgba(255,255,255,.085) !important;
+  font-size:11px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.transferSwapPreview{
+  grid-column:1 / -1 !important;
+  display:grid !important;
+  gap:6px !important;
+  padding:8px !important;
+  border-radius:18px !important;
+  background:rgba(0,230,118,.045) !important;
+  border:1px solid rgba(0,230,118,.11) !important;
+}
+
+.transferSwapPreview span{
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  min-width:0 !important;
+  color:var(--fg-text-2) !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+}
+
+.transferSwapPreview img{
+  width:26px !important;
+  height:26px !important;
+  min-width:26px !important;
+  border-radius:10px !important;
+  object-fit:cover !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+}
+
+.transferSwapPreview b{
+  min-width:0 !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+
+.transferContractBtn{
+  grid-column:1 / -1 !important;
+  width:100% !important;
+  min-height:40px !important;
+  border-radius:16px !important;
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 20px rgba(0,230,118,.16) !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+.freeAgentsTransferSection{
+  border-radius:24px !important;
+  padding:13px !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.09), transparent 34%),
+    linear-gradient(145deg, rgba(4,10,22,.88), rgba(3,7,18,.84)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.055) !important;
+}
+
+.freeAgentsTransferSection .sectionHead{
+  margin:12px 0 8px !important;
+}
+
+.freeAgentsTransferSection .sectionHead h3{
+  color:var(--fg-text) !important;
+  font-size:21px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+}
+
+.freeAgentsTransferSection .sectionHead p{
+  color:var(--fg-sub) !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+  font-weight:800 !important;
+}
+
+.freeAgentsTransferSection .sectionHead strong{
+  width:42px !important;
+  height:42px !important;
+  border-radius:16px !important;
+  display:grid !important;
+  place-items:center !important;
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  font-size:14px !important;
+  font-weight:900 !important;
+}
+
+.freeAgentsGrid{
+  display:grid !important;
+  gap:9px !important;
+}
+
+.freeAgentsGrid .playerCard{
+  min-height:74px !important;
+  border-radius:21px !important;
+  padding:10px 11px !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.08), transparent 32%),
+    linear-gradient(135deg, rgba(6,13,27,.90), rgba(4,8,18,.84)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 10px 26px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.055) !important;
+}
+
+.freeAgentsGrid .playerCard.freeAgentUnavailable{
+  opacity:.74 !important;
+  background:linear-gradient(135deg, rgba(18,20,32,.88), rgba(4,8,18,.84)) !important;
+}
+
+.freeAgentsGrid .playerPhoto{
+  width:50px !important;
+  height:50px !important;
+  border-radius:17px !important;
+  object-fit:cover !important;
+  border:1px solid rgba(255,255,255,.13) !important;
+}
+
+.freeAgentsGrid .playerInfo h4{
+  color:var(--fg-text) !important;
+  font-size:15px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+}
+
+.freeAgentsGrid .playerMeta{
+  color:var(--fg-sub) !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+}
+
+.freeAgentsGrid .playerRating{
+  width:36px !important;
+  height:36px !important;
+  border-radius:14px !important;
+  display:grid !important;
+  place-items:center !important;
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  font-size:13px !important;
+  font-weight:900 !important;
+}
+
+@media(max-width:430px){
