@@ -1,0 +1,372 @@
+/* FIFA GROUP — Archive / Stats / Links Theme
+   Visual polish for archive, statistics, and important links pages.
+   Page header styles now handled by unified-page-headers.css */
+
+.archiveModeTabs,
+.statsModeTabs,
+.linksModeTabs{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  gap:7px !important;
+  overflow-x:auto !important;
+  padding:2px 0 4px !important;
+  scrollbar-width:none !important;
+}
+
+.archiveModeTabs::-webkit-scrollbar,
+.statsModeTabs::-webkit-scrollbar,
+.linksModeTabs::-webkit-scrollbar{display:none !important;}
+
+.archiveModeTabs button,
+.statsModeTabs button,
+.linksModeTabs button{
+  min-height:38px !important;
+  flex:0 0 auto !important;
+  border-radius:999px !important;
+  padding:0 13px !important;
+  color:var(--fg-text-2) !important;
+  background:rgba(255,255,255,.045) !important;
+  border:1px solid rgba(255,255,255,.075) !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+.archiveModeTabs button.active,
+.statsModeTabs button.active,
+.linksModeTabs button.active{
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  border-color:rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 20px rgba(0,230,118,.18) !important;
+}
+
+/* ===== Archive cards / rows ===== */
+.archiveGrid,
+.archiveList,
+.trophyArchiveGrid,
+.trophyArchiveList,
+.memberArchiveGrid,
+.memberArchiveList,
+.seasonArchiveGrid,
+.seasonArchiveList{
+  display:grid !important;
+  gap:10px !important;
+}
+
+.archiveCard,
+.archiveRow,
+.trophyArchiveCard,
+.memberArchiveCard,
+.seasonArchiveCard,
+.tournamentArchiveCard{
+  position:relative !important;
+  isolation:isolate !important;
+  overflow:hidden !important;
+  min-height:78px !important;
+  border-radius:23px !important;
+  padding:11px 12px !important;
+  color:var(--fg-text) !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.10), transparent 32%),
+    linear-gradient(135deg, rgba(6,13,27,.92), rgba(4,8,18,.86)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.055) !important;
+  backdrop-filter:blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
+}
+
+.archiveCard::before,
+.archiveRow::before,
+.trophyArchiveCard::before,
+.memberArchiveCard::before,
+.seasonArchiveCard::before,
+.tournamentArchiveCard::before{
+  content:"";
+  position:absolute;
+  inset-inline-end:0;
+  top:16px;
+  bottom:16px;
+  width:3px;
+  border-radius:999px;
+  background:linear-gradient(var(--fg-green), var(--fg-cyan));
+  box-shadow:0 0 14px rgba(0,230,118,.38);
+  opacity:.78;
+}
+
+.archiveCard h3,
+.archiveCard h4,
+.archiveRow h3,
+.archiveRow h4,
+.trophyArchiveCard h3,
+.trophyArchiveCard h4,
+.memberArchiveCard h3,
+.memberArchiveCard h4,
+.seasonArchiveCard h3,
+.seasonArchiveCard h4,
+.tournamentArchiveCard h3,
+.tournamentArchiveCard h4{
+  margin:0 !important;
+  color:var(--fg-text) !important;
+  font-size:17px !important;
+  line-height:1.25 !important;
+  font-weight:900 !important;
+}
+
+.archiveCard p,
+.archiveCard small,
+.archiveRow p,
+.archiveRow small,
+.trophyArchiveCard p,
+.trophyArchiveCard small,
+.memberArchiveCard p,
+.memberArchiveCard small,
+.seasonArchiveCard p,
+.seasonArchiveCard small,
+.tournamentArchiveCard p,
+.tournamentArchiveCard small{
+  color:var(--fg-sub) !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+  font-weight:800 !important;
+}
+
+.archiveCard img,
+.archiveRow img,
+.trophyArchiveCard img,
+.memberArchiveCard img,
+.seasonArchiveCard img,
+.tournamentArchiveCard img{
+  width:52px !important;
+  height:52px !important;
+  min-width:52px !important;
+  border-radius:18px !important;
+  object-fit:cover !important;
+  background:rgba(255,255,255,.045) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  box-shadow:0 0 16px rgba(0,212,255,.12), 0 12px 26px rgba(0,0,0,.25) !important;
+}
+
+.archiveCard span,
+.archiveRow span,
+.trophyArchiveCard span,
+.memberArchiveCard span,
+.seasonArchiveCard span,
+.tournamentArchiveCard span{
+  color:var(--fg-text-2) !important;
+}
+
+/* ===== Statistics page ===== */
+.statsGrid,
+.generalStatsGrid,
+.statsCardsGrid,
+.statsList{
+  display:grid !important;
+  gap:10px !important;
+}
+
+.statsCard,
+.statBox,
+.generalStatCard,
+.statsRow{
+  position:relative !important;
+  overflow:hidden !important;
+  min-height:104px !important;
+  border-radius:22px !important;
+  padding:12px !important;
+  color:var(--fg-text) !important;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(0,230,118,.10), transparent 36%),
+    linear-gradient(135deg, rgba(6,13,27,.90), rgba(4,8,18,.84)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 10px 28px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.055) !important;
+  backdrop-filter:blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
+}
+
+.statsCard::before,
+.statBox::before,
+.generalStatCard::before,
+.statsRow::before{
+  content:"";
+  position:absolute;
+  inset-inline-end:0;
+  top:14px;
+  bottom:14px;
+  width:3px;
+  border-radius:999px;
+  background:linear-gradient(var(--fg-green), var(--fg-cyan));
+  box-shadow:0 0 14px rgba(0,230,118,.34);
+  opacity:.72;
+}
+
+.statsCard span,
+.statBox span,
+.generalStatCard span,
+.statsRow span{
+  display:block !important;
+  color:var(--fg-sub) !important;
+  font-size:11px !important;
+  line-height:1.35 !important;
+  font-weight:900 !important;
+}
+
+.statsCard b,
+.statsCard strong,
+.statBox b,
+.statBox strong,
+.generalStatCard b,
+.generalStatCard strong,
+.statsRow b,
+.statsRow strong{
+  display:block !important;
+  margin-top:6px !important;
+  color:var(--fg-text) !important;
+  font-size:clamp(25px, 7vw, 38px) !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  direction:ltr !important;
+  text-align:right !important;
+}
+
+.statsCard small,
+.statBox small,
+.generalStatCard small,
+.statsRow small,
+.statsCard p,
+.statBox p,
+.generalStatCard p,
+.statsRow p{
+  display:block !important;
+  margin-top:7px !important;
+  color:var(--fg-sub) !important;
+  font-size:11px !important;
+  line-height:1.35 !important;
+  font-weight:800 !important;
+}
+
+/* ===== Important links page ===== */
+.linksGrid,
+.linksList{
+  display:grid !important;
+  gap:10px !important;
+}
+
+.linkCard,
+.importantLinkCard{
+  position:relative !important;
+  overflow:hidden !important;
+  min-height:74px !important;
+  border-radius:22px !important;
+  padding:12px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:11px !important;
+  color:var(--fg-text) !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(0,230,118,.10), transparent 32%),
+    linear-gradient(135deg, rgba(6,13,27,.92), rgba(4,8,18,.86)) !important;
+  border:1px solid rgba(255,255,255,.078) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.055) !important;
+  text-decoration:none !important;
+}
+
+.linkCard::before,
+.importantLinkCard::before{
+  content:"";
+  position:absolute;
+  inset-inline-end:0;
+  top:16px;
+  bottom:16px;
+  width:3px;
+  border-radius:999px;
+  background:linear-gradient(var(--fg-green), var(--fg-cyan));
+  box-shadow:0 0 14px rgba(0,230,118,.38);
+  opacity:.78;
+}
+
+.linkCard strong,
+.linkCard b,
+.importantLinkCard strong,
+.importantLinkCard b{
+  color:var(--fg-text) !important;
+  font-size:16px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+}
+
+.linkCard small,
+.linkCard p,
+.importantLinkCard small,
+.importantLinkCard p{
+  color:var(--fg-sub) !important;
+  font-size:12px !important;
+  line-height:1.4 !important;
+  font-weight:800 !important;
+}
+
+.linkCard span:first-child,
+.importantLinkCard span:first-child{
+  width:44px !important;
+  height:44px !important;
+  min-width:44px !important;
+  border-radius:16px !important;
+  display:grid !important;
+  place-items:center !important;
+  color:var(--fg-ink) !important;
+  background:linear-gradient(135deg, var(--fg-green), var(--fg-cyan)) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 20px rgba(0,230,118,.18) !important;
+  font-size:19px !important;
+}
+
+@media(max-width:430px){
+  .archivePage .pageHead,
+  .statsPage .pageHead,
+  .linksPage .pageHead,
+  .widePage:has(.archiveModeTabs) .pageHead,
+  .widePage:has(.statsGrid) .pageHead,
+  .widePage:has(.linksGrid) .pageHead,
+  .widePage:has(.linkCard) .pageHead{
+    border-radius:26px !important;
+    padding:18px !important;
+  }
+
+  .archivePage .pageHead h2,
+  .statsPage .pageHead h2,
+  .linksPage .pageHead h2,
+  .widePage:has(.archiveModeTabs) .pageHead h2,
+  .widePage:has(.statsGrid) .pageHead h2,
+  .widePage:has(.linksGrid) .pageHead h2,
+  .widePage:has(.linkCard) .pageHead h2{
+    font-size:28px !important;
+  }
+
+  .archiveCard,
+  .archiveRow,
+  .trophyArchiveCard,
+  .memberArchiveCard,
+  .seasonArchiveCard,
+  .tournamentArchiveCard{
+    min-height:74px !important;
+    border-radius:21px !important;
+    padding:10px !important;
+  }
+
+  .statsCard,
+  .statBox,
+  .generalStatCard,
+  .statsRow{
+    min-height:98px !important;
+    border-radius:20px !important;
+    padding:11px !important;
+  }
+
+  .linkCard,
+  .importantLinkCard{
+    min-height:70px !important;
+    border-radius:20px !important;
+    padding:10px !important;
+  }
+}
