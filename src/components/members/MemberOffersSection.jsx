@@ -80,7 +80,7 @@ const profileSectionHeaderCss = `
 `;
 
 
-export default function MemberOffersSection({ member, members = [], allPlayers = [], playerOffers = [], currentMemberId = "", isFifaAdmin = false, logoUrl = "", onOpenPlayer, onEditOffer, onCancelOffer, onAcceptOffer, onRejectOffer }) {
+export default function MemberOffersSection({ member, members = [], allPlayers = [], playerOffers = [], transferHistory = [], currentMemberId = "", isFifaAdmin = false, logoUrl = "", onOpenPlayer, onEditOffer, onCancelOffer, onAcceptOffer, onRejectOffer }) {
   const memberId = cleanId(member?.id);
   const [offerSearch, setOfferSearch] = useState("");
   const [offerSubTab, setOfferSubTab] = useState("incoming_active");
@@ -92,7 +92,48 @@ export default function MemberOffersSection({ member, members = [], allPlayers =
 
   if (!canViewOfferCenter) return null;
 
-  const memberOffers = (playerOffers || [])
+  function isFreeAgentHistoryRow(row = {}) {
+    const type = clean(row.type || row.registrationType || "");
+    const label = clean(row.typeLabel || row.note || "");
+    return (
+      type.includes("free_agent") ||
+      type.includes("contract_break") ||
+      label.includes("لاعبحر") ||
+      label.includes("لاعب حر") ||
+      label.includes("شرط جزائي") ||
+      label.includes("كسر عقد")
+    );
+  }
+
+  function historyRowAsCompletedOffer(row = {}, index = 0) {
+    return {
+      id: "history-" + String(row.id || row.relatedQueueId || row.playerId || index),
+      relatedHistoryId: row.id || "",
+      targetPlayerId: row.playerId || row.playerid || "",
+      targetPlayerName: row.playerName || row.player || row.name || "لاعب",
+      targetPlayerImage: row.playerImage || "",
+      targetPlayerRating: row.playerRating || "",
+      targetPlayerPosition: row.playerPosition || "",
+      fromMemberId: row.fromMemberId || "free_agents",
+      fromMemberName: row.fromMemberName || row.from || "لاعب حر",
+      toMemberId: row.toMemberId || row.currentMemberId || memberId,
+      toMemberName: row.toMemberName || row.to || member?.name || "",
+      type: "buy",
+      typeLabel: row.typeLabel || row.type || "صفقة مكتملة",
+      status: "completed",
+      amount: row.amount || 0,
+      completedAt: row.completedAt || row.createdAt || row.date || "",
+      createdAt: row.createdAt || row.completedAt || row.date || "",
+      __historyRow: row,
+    };
+  }
+
+  const freeAgentCompletedOffers = (transferHistory || [])
+    .filter((row) => isFreeAgentHistoryRow(row))
+    .filter((row) => same(row.fromMemberId, memberId) || same(row.toMemberId, memberId) || same(row.currentMemberId, memberId))
+    .map(historyRowAsCompletedOffer);
+
+  const memberBaseOffers = (playerOffers || [])
     .filter((offer) => same(offer.fromMemberId, memberId) || same(offer.toMemberId, memberId))
     .filter((offer) => {
       if (!q) return true;
@@ -109,8 +150,10 @@ export default function MemberOffersSection({ member, members = [], allPlayers =
         offer.amount,
         offeredNames,
       ].join(" ")).includes(q);
-    })
-    .sort((a, b) => notificationTimeValue(b.createdAt) - notificationTimeValue(a.createdAt));
+    });
+
+  const memberOffers = [...memberBaseOffers, ...freeAgentCompletedOffers]
+    .sort((a, b) => notificationTimeValue(b.createdAt || b.completedAt) - notificationTimeValue(a.createdAt || a.completedAt));
 
   function offerStatusKey(offer) {
     const status = clean(offer.status || "pending");
@@ -157,7 +200,7 @@ export default function MemberOffersSection({ member, members = [], allPlayers =
   const visibleOffers = activeTab[2] || [];
 
   function findOfferPlayer(offer) {
-    return (allPlayers || []).find((player) => same(getPlayerStableId(player), offer.targetPlayerId)) || {
+    return (allPlayers || []).find((player) => same(getPlayerStableId(player), offer.targetPlayerId || offer.playerId)) || {
       playerid: offer.targetPlayerId,
       id: offer.targetPlayerId,
       name: offer.targetPlayerName,
@@ -185,7 +228,7 @@ export default function MemberOffersSection({ member, members = [], allPlayers =
   }
 
   function openCompletedOfferContract(offer, player) {
-    const row = normalizeOfferAsTransferContractRow(offer);
+    const row = offer.__historyRow ? offer.__historyRow : normalizeOfferAsTransferContractRow(offer);
     const contractPlayer = {
       id: row.playerId || row.playerid || player?.id || player?.playerid || "",
       playerid: row.playerId || row.playerid || player?.playerid || player?.id || "",

@@ -3,6 +3,21 @@ import { buildGoalsForMessage, buildGoalsAgainstMessage } from '../../utils';
 import StatCard from '../ui/StatCard';
 
 
+const svgDataIcon = (paths, color = "#00E676") =>
+  "data:image/svg+xml;utf8," + encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`
+  );
+
+const statFallbackIcons = {
+  finalsPlayed: svgDataIcon('<path d="M8 4h8v4a4 4 0 0 1-8 0V4Z"/><path d="M7 6H5.5a1.5 1.5 0 0 0-.6 2.9L8 10"/><path d="M17 6h1.5a1.5 1.5 0 0 1 .6 2.9L16 10"/><path d="M12 12v4"/><path d="M8.5 20h7"/>', "#FACC15"),
+  finalsWon: svgDataIcon('<path d="M20 6 9 17l-5-5"/><path d="M12 3v4"/><path d="M7 7h10"/><path d="M8 21h8"/>', "#00E676"),
+  finalsLost: svgDataIcon('<path d="M8 8l8 8"/><path d="M16 8l-8 8"/><path d="M12 3v3"/><path d="M7 21h10"/>', "#F87171"),
+  goalsFor: svgDataIcon('<circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M4 12h16"/><path d="m15 9 3-3"/><path d="m18 6-1 4"/>', "#38BDF8"),
+  goalsAgainst: svgDataIcon('<path d="M4 7h16v10H4z"/><path d="M8 7v10"/><path d="M16 7v10"/><path d="M12 11v2"/><path d="m9 4 6 16"/>', "#A855F7"),
+  relegations: svgDataIcon('<path d="M12 5v14"/><path d="m6 13 6 6 6-6"/><path d="M5 5h14"/>', "#F97316"),
+};
+
+
 const profileSectionHeaderCss = `
 .fgProfileSectionPanel .fgProfileSectionHead{
   display:flex;
@@ -91,7 +106,7 @@ export default function MemberStatsSection({ config, stats, member, members, onO
       </div>
       <div className="statsPanelGrid">
         <StatCard
-          icon={config.finalsPlayedIcon}
+          icon={config.finalsPlayedIcon || statFallbackIcons.finalsPlayed}
           value={stats.finalsPlayed}
           label="نهائيات خاضها"
           onClick={() =>
@@ -104,7 +119,7 @@ export default function MemberStatsSection({ config, stats, member, members, onO
           }
         />
         <StatCard
-          icon={config.finalsWonIcon}
+          icon={config.finalsWonIcon || statFallbackIcons.finalsWon}
           value={stats.finalsWon}
           label="نهائيات فاز بها"
           onClick={() =>
@@ -117,7 +132,7 @@ export default function MemberStatsSection({ config, stats, member, members, onO
           }
         />
         <StatCard
-          icon={config.finalsLostIcon}
+          icon={config.finalsLostIcon || statFallbackIcons.finalsLost}
           value={stats.finalsLost}
           label="نهائيات خسرها"
           onClick={() =>
@@ -130,7 +145,7 @@ export default function MemberStatsSection({ config, stats, member, members, onO
           }
         />
         <StatCard
-          icon={config.goalsForIcon}
+          icon={config.goalsForIcon || statFallbackIcons.goalsFor}
           value={stats.finalGoalsFor}
           label="أهداف سجلها"
           onClick={() =>
@@ -138,14 +153,14 @@ export default function MemberStatsSection({ config, stats, member, members, onO
           }
         />
         <StatCard
-          icon={config.goalsAgainstIcon}
+          icon={config.goalsAgainstIcon || statFallbackIcons.goalsAgainst}
           value={stats.finalGoalsAgainst}
           label="أهداف تلقاها"
           onClick={() =>
             onInfo(buildGoalsAgainstMessage(stats, members, member.name))
           }
         />
-        <StatCard icon={config.relegationsIcon} value={stats.relegations} label="مرات الهبوط" />
+        <StatCard icon={config.relegationsIcon || statFallbackIcons.relegations} value={stats.relegations} label="مرات الهبوط" />
       </div>
     </section>
   );
