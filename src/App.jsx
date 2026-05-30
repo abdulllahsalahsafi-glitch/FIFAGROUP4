@@ -11,7 +11,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, onSnapshot, serverTimestamp, setDoc, updateDoc, query, orderBy, limit } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, onSnapshot, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 
 // ─── Extracted page components (self-contained) ──────────────────────────────
 import HomePage from './pages/HomePage';
@@ -70,7 +70,7 @@ import PlayerDetailSubPage from './pages/PlayerDetailSubPage';
 import HistoricalMembersStatsShowcase from './components/members/HistoricalMembersStatsShowcase';
 
 // ─── Utils (extracted helpers — replaces module-level duplicates) ─────────────
-import { formatTransferDate, usernameKey, usernameToFirebaseEmail, firebaseAuthMessage, clean, cleanId, same, toNumber, formatMoney, isEnabled, normalizeKey, removeBom, parseCSV, isFifaAdminProfile, isNotificationVisibleToMember, pushTokenDocId, adminRewardTypeLabel, adminDecisionTypeLabel, adminDecisionStatusLabel, adminViolationCategoryLabel, isFifaAdminMoneyTransfer, isCorrectionMoneyTransfer, hasMoneyTransferCorrection, buildAdminTransferRestrictionPayload, getAdminTargetMembers, getTopBarTitle, getActiveMemberRestrictions, getBlockingTransferRestriction, transferActionArabic, transferRestrictionShortText, transferRestrictionBlockMessage, formatRestrictionNotificationBody, timestampMs, dateOnlyMs, isTransferRestrictionActive, getMemberName, notificationTimeValue, notificationDisplayDate, isOfferExpired, dateValue, getFifaAdminNoticeTemplates, getFifaAdminNoticeTemplate, adminDecisionMainLine, adminNoteCategoryLabel, adminSeverityLabel, transferWindowStatusLabel, computeTransferWindowStats, buildFifaAdminSmartAlerts, isTransferMarketOpen, wrapCanvasText, exportDateTimeLabel, isCompetitionCompleted, competitionKnockoutColumnsForExport, roundRect, safeFileName, triggerCanvasDownload, normalizeCompetitionRewards, rewardRankLabel, drawStatBox, buildHistoricalMemberExportStats, exportBrandLogoUrl, toLatinDigits, formatLatinNumber, renderSmartIcon, normalizeImageUrl, toCssSize, avatar, linkIcon, sortRecordsDesc, trophySort, unique, normalizeDate, seasonNumber, buildTrophyMap, groupMemberTrophies, groupByTrophy, buildArchiveSeasons, computeSeasonRanking, isFifaSystemMember, isActiveSeasonMember, getActiveMembers, getPlayerStableId, addDays, localDateKey, rowBelongsToTransferWindow, hasRecord, getFinanceMemberId, getFinanceFromMemberId, getFinanceToMemberId, competitionTypeKey, isLeagueGroupsCompetition, isChampionsLeagueSingleGroup, isAbdullahLike, isLinkedLeagueGroupsCup, isKnockoutCompetitionType, uniqueCleanIds, getCompetitionExcludedMemberIds, isCompetitionExcludedMember, isCompetitionExcludedMatch, filterCompetitionParticipantsForCalculation, filterCompetitionMatchesForCalculation, matchInvolvesMember, isWaitingCompetitionMatch, isGroupOrLeagueStageMatch, competitionAbsenceInfoForMember, getApprovedCompetitionChampionName, generateLeagueRoundRobinMatches, computeLeagueStandings, compareLeagueStanding, leagueStandingTieKey, annotateLeagueStandings, tieBreakDecisionKey, normalizeTieBreakDecisions, shuffleRows, distributeSeedPotsToGroups, groupLetterName, generateWorldCupMatches, worldCupGroupStageReady, worldCupGroupRows, computeWorldCupQualifiedRows, computeWorldCupQualifiedIds, worldCupQualifierTokenMap, resolveWorldCupDependencies, championsLeagueGroupLetterName, buildBalancedGroupMatchPairs, generateChampionsLeagueMatches, championsLeagueGroupStageReady, championsLeagueGroupRows, computeChampionsLeagueQualifiedRows, computeChampionsLeagueQualifiedIds, computeKnockoutQualifiedIds, championsLeagueQualifierTokenMap, resolveChampionsLeagueDependencies, generateSeededKnockoutBracketMatches, resolveKnockoutBracketDependencies, knockoutBracketSizeForCount, normalizeCupManualPairings, buildManualKnockoutBracketSlots, buildSeededBracketSlots, roundLabelForBracket, matchShortLabel, matchLoserInfo, getKnockoutChampion, getKnockoutRewardRows, resolveLeagueQualifierDependencies, linkedCupGroupIsReady, sortedCompetitionMatchesForSchedule, competitionMatchSortValue, competitionTypeArabic, competitionTimeValue, buildLinkedLeagueCupDisplayCompetition, getSeasonCenterCompetitionMatches, isSeasonCenterOpenMatch, getSeasonCenterCompetitionStats, getSeasonCenterRadarItems, getSeasonCenterEventFeed, seasonCenterEventDateLabel, isSeasonCenterActiveOffer, seasonCenterPhaseLabel, buildCompetitionStats, assignLeagueGamePlatforms, applyCompetitionGameMode, generateLeagueQualifierMatches, getWorldCupThirdPlace, leagueTwoGroupsAdminRoundTitle, generateLeagueTwoGroupsMatches, championsLeagueAdminRoundTitle, validateCupManualPairings, getCompetitionChampionInfo, scheduleStageTitleForMatch, groupLeagueMatchesByRound, competitionTypeLabel, competitionDefaultIcon, competitionTrophyLookupKeys, competitionLogoFromTrophyMap, competitionLogoFromConfig, competitionLogoUrl, competitionStatusLabel, studioTimeValue, studioMatchScoreText, studioEventDateLabel, adminMoneyTransferLabel, isPlayerReleasedByContracts, isActivePlayerOfferStatus, isBlockingOwnPlayerOfferStatus, isBlockingOwnPlayerOfferStillValid, isAcceptedOrCompletedPlayerOffer, isFinanciallyReservedPlayerOffer, isTerminalPlayerOfferStatus, playerOfferStatusMessage, getInitialPushStatus, normalizeFirebaseTransferRows, mergeTransferPeriods, getTransferWindowForDate, getTransferWindowNameForDate, getTransferWindowIdForDate, isFreeAgentPlayer, toBooleanFlag, isFreeOriginContract, isFreeAgentPoolContract, getFreeAgentSlotOwnerIdFromContract, hasEverUsedFreeAgentSlot, normalizeOfferAsTransferContractRow, getTransferContractParties, hasFreeAgentRegistrationRecord, hasAnyFreeAgentRegistrationForMember, getRosterKindCode, getRosterPlayerKindFromContract, getPlayerRosterKindLabel, getTransferPeriods, isFinanceTransfer, getMemberFinanceRows, getFinanceRawAmount, normalizeDigits, parseFinanceAmount, getFinanceDirection, getFinanceSignedAmount, computeMemberBalance, financeDirectionLabel, getFinanceDisplayTitle, getFinanceRecordDate, getFinanceRecordNote, financeTypeClass, transferTypeClass, transferRowTimeValue, loanDurationLabel, isLoanTransferRow, transferStatusLabel, effectiveTransferStatusLabel, formatContractIssuedAt, firstValue, splitIds, sortByDateDesc, sortByDateAsc, sortMixedRowsDesc, sortRecordsAsc, normalizeTournamentRow, archiveLeagueSystemHasFinal, archiveTournamentCountsAsFinalStats, computeMemberStats, addFinalForMember, emptyMemberStats, buildGoalsForMessage, buildGoalsAgainstMessage, topMap, getActiveSeasonId, findSeason, archiveLookupKey, archiveKeyHasFinalContext, archiveKeyHasSide, archiveKeyLooksLikeScore, getArchiveFinalSideValue, getArchiveFinalSideGoals, getArchiveFinalResultValue, extractScorePairFromText, resolveArchiveMemberId, inferArchiveFinalFromText, getTrophyDisplayName, downloadStudioChampionImage, downloadStudioResultImage, downloadFifaStudioResultCardImage, downloadStudioDealImage, downloadStudioMemberSummaryImage, transferTypeDisplayLabel, downloadFifaStudioCardImage, downloadTransferContractImage, escapeSvgText, normalizeExchangeContractType, normalizeExchangeLoanDuration, exchangeContractLabel, normalizeOfferExchangeClauseForSave, formatArchiveFinalText } from './utils';
+import { formatTransferDate, usernameKey, usernameToFirebaseEmail, firebaseAuthMessage, clean, cleanId, same, toNumber, formatMoney, isEnabled, normalizeKey, removeBom, parseCSV, isFifaAdminProfile, isNotificationVisibleToMember, pushTokenDocId, adminRewardTypeLabel, adminDecisionTypeLabel, adminDecisionStatusLabel, adminViolationCategoryLabel, isFifaAdminMoneyTransfer, isCorrectionMoneyTransfer, hasMoneyTransferCorrection, buildAdminTransferRestrictionPayload, getAdminTargetMembers, getTopBarTitle, getActiveMemberRestrictions, getBlockingTransferRestriction, transferActionArabic, transferRestrictionShortText, transferRestrictionBlockMessage, formatRestrictionNotificationBody, timestampMs, dateOnlyMs, isTransferRestrictionActive, getMemberName, notificationTimeValue, notificationDisplayDate, isOfferExpired, dateValue, getFifaAdminNoticeTemplates, getFifaAdminNoticeTemplate, adminDecisionMainLine, adminNoteCategoryLabel, adminSeverityLabel, transferWindowStatusLabel, computeTransferWindowStats, buildFifaAdminSmartAlerts, isTransferMarketOpen, wrapCanvasText, exportDateTimeLabel, isCompetitionCompleted, competitionKnockoutColumnsForExport, roundRect, safeFileName, triggerCanvasDownload, normalizeCompetitionRewards, rewardRankLabel, drawStatBox, buildHistoricalMemberExportStats, exportBrandLogoUrl, toLatinDigits, formatLatinNumber, renderSmartIcon, normalizeImageUrl, toCssSize, avatar, linkIcon, sortRecordsDesc, trophySort, unique, normalizeDate, seasonNumber, buildTrophyMap, groupMemberTrophies, groupByTrophy, buildArchiveSeasons, computeSeasonRanking, isFifaSystemMember, isActiveSeasonMember, getActiveMembers, getPlayerStableId, addDays, localDateKey, rowBelongsToTransferWindow, hasRecord, getFinanceMemberId, getFinanceFromMemberId, getFinanceToMemberId, competitionTypeKey, isLeagueGroupsCompetition, isChampionsLeagueSingleGroup, isAbdullahLike, isLinkedLeagueGroupsCup, isKnockoutCompetitionType, uniqueCleanIds, getCompetitionExcludedMemberIds, isCompetitionExcludedMember, isCompetitionExcludedMatch, filterCompetitionParticipantsForCalculation, filterCompetitionMatchesForCalculation, matchInvolvesMember, isWaitingCompetitionMatch, isGroupOrLeagueStageMatch, competitionAbsenceInfoForMember, getApprovedCompetitionChampionName, generateLeagueRoundRobinMatches, computeLeagueStandings, compareLeagueStanding, leagueStandingTieKey, annotateLeagueStandings, shuffleRows, distributeSeedPotsToGroups, groupLetterName, generateWorldCupMatches, worldCupGroupStageReady, worldCupGroupRows, computeWorldCupQualifiedRows, computeWorldCupQualifiedIds, worldCupQualifierTokenMap, resolveWorldCupDependencies, championsLeagueGroupLetterName, buildBalancedGroupMatchPairs, generateChampionsLeagueMatches, championsLeagueGroupStageReady, championsLeagueGroupRows, computeChampionsLeagueQualifiedRows, computeChampionsLeagueQualifiedIds, championsLeagueQualifierTokenMap, resolveChampionsLeagueDependencies, generateSeededKnockoutBracketMatches, resolveKnockoutBracketDependencies, knockoutBracketSizeForCount, normalizeCupManualPairings, buildManualKnockoutBracketSlots, buildSeededBracketSlots, roundLabelForBracket, matchShortLabel, matchLoserInfo, getKnockoutChampion, getKnockoutRewardRows, resolveLeagueQualifierDependencies, linkedCupGroupIsReady, sortedCompetitionMatchesForSchedule, competitionMatchSortValue, competitionTypeArabic, competitionTimeValue, buildLinkedLeagueCupDisplayCompetition, getSeasonCenterCompetitionMatches, isSeasonCenterOpenMatch, getSeasonCenterCompetitionStats, getSeasonCenterRadarItems, getSeasonCenterEventFeed, seasonCenterEventDateLabel, isSeasonCenterActiveOffer, seasonCenterPhaseLabel, buildCompetitionStats, assignLeagueGamePlatforms, applyCompetitionGameMode, generateLeagueQualifierMatches, getWorldCupThirdPlace, leagueTwoGroupsAdminRoundTitle, generateLeagueTwoGroupsMatches, championsLeagueAdminRoundTitle, validateCupManualPairings, getCompetitionChampionInfo, scheduleStageTitleForMatch, groupLeagueMatchesByRound, competitionTypeLabel, competitionDefaultIcon, competitionTrophyLookupKeys, competitionLogoFromTrophyMap, competitionLogoFromConfig, competitionLogoUrl, competitionStatusLabel, studioTimeValue, studioMatchScoreText, studioEventDateLabel, adminMoneyTransferLabel, isPlayerReleasedByContracts, isActivePlayerOfferStatus, isBlockingOwnPlayerOfferStatus, isBlockingOwnPlayerOfferStillValid, isAcceptedOrCompletedPlayerOffer, isFinanciallyReservedPlayerOffer, isTerminalPlayerOfferStatus, playerOfferStatusMessage, getInitialPushStatus, normalizeFirebaseTransferRows, mergeTransferPeriods, getTransferWindowForDate, getTransferWindowNameForDate, getTransferWindowIdForDate, isFreeAgentPlayer, toBooleanFlag, isFreeOriginContract, isFreeAgentPoolContract, getFreeAgentSlotOwnerIdFromContract, hasEverUsedFreeAgentSlot, normalizeOfferAsTransferContractRow, getTransferContractParties, hasFreeAgentRegistrationRecord, hasAnyFreeAgentRegistrationForMember, getRosterKindCode, getRosterPlayerKindFromContract, getPlayerRosterKindLabel, getTransferPeriods, isFinanceTransfer, getMemberFinanceRows, getFinanceRawAmount, normalizeDigits, parseFinanceAmount, getFinanceDirection, getFinanceSignedAmount, computeMemberBalance, financeDirectionLabel, getFinanceDisplayTitle, getFinanceRecordDate, getFinanceRecordNote, financeTypeClass, transferTypeClass, transferRowTimeValue, loanDurationLabel, isLoanTransferRow, transferStatusLabel, effectiveTransferStatusLabel, formatContractIssuedAt, firstValue, splitIds, sortByDateDesc, sortByDateAsc, sortMixedRowsDesc, sortRecordsAsc, normalizeTournamentRow, archiveLeagueSystemHasFinal, archiveTournamentCountsAsFinalStats, computeMemberStats, addFinalForMember, emptyMemberStats, buildGoalsForMessage, buildGoalsAgainstMessage, topMap, getActiveSeasonId, findSeason, archiveLookupKey, archiveKeyHasFinalContext, archiveKeyHasSide, archiveKeyLooksLikeScore, getArchiveFinalSideValue, getArchiveFinalSideGoals, getArchiveFinalResultValue, extractScorePairFromText, resolveArchiveMemberId, inferArchiveFinalFromText, getTrophyDisplayName, downloadStudioChampionImage, downloadStudioResultImage, downloadFifaStudioResultCardImage, downloadStudioDealImage, downloadStudioMemberSummaryImage, transferTypeDisplayLabel, downloadFifaStudioCardImage, downloadTransferContractImage, escapeSvgText, normalizeExchangeContractType, normalizeExchangeLoanDuration, exchangeContractLabel, normalizeOfferExchangeClauseForSave, formatArchiveFinalText } from './utils';
 
 const DEFAULT_CONFIG = {
   mainTitle: "FIFA GROUP",
@@ -151,7 +151,6 @@ const DEFAULT_CONFIG = {
   archiveTrophyTabIcon: "🏆",
   archiveSeasonTabIcon: "📅",
   archiveMemberTabIcon: "👤",
-  maxProfessionalPlayers: "5",
 };
 
 const FALLBACK_PLAYER_IMAGE =
@@ -194,630 +193,7 @@ const URLS = {
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDrHv3359NOsLcR5FqhRLs4MyYBxWzKI1iVZNVKT1_8vIPMOyqqzJF5qSah5cmYIuj182gYQAVwccm/pub?gid=1147950511&single=true&output=csv",
   settings:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDrHv3359NOsLcR5FqhRLs4MyYBxWzKI1iVZNVKT1_8vIPMOyqqzJF5qSah5cmYIuj182gYQAVwccm/pub?gid=1487747915&single=true&output=csv",
-  pointsRules:
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDrHv3359NOsLcR5FqhRLs4MyYBxWzKI1iVZNVKT1_8vIPMOyqqzJF5qSah5cmYIuj182gYQAVwccm/pub?gid=1027277293&single=true&output=csv",
-  competitionPriority:
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDrHv3359NOsLcR5FqhRLs4MyYBxWzKI1iVZNVKT1_8vIPMOyqqzJF5qSah5cmYIuj182gYQAVwccm/pub?gid=207330795&single=true&output=csv",
 };
-
-
-// ─── Season points system: sheet-driven rules + priority tie-breakers ─────────
-const DEFAULT_SEASON_POINTS_RULES = [
-  { competitionType: "world_cup", rank: 1, points: 20, active: true },
-  { competitionType: "world_cup", rank: 2, points: 17, active: true },
-  { competitionType: "world_cup", rank: 3, points: 15, active: true },
-  { competitionType: "world_cup", rank: 4, points: 10, active: true },
-  { competitionType: "league", rank: 1, points: 10, active: true },
-  { competitionType: "league", rank: 2, points: 5, active: true },
-  { competitionType: "league", rank: 3, points: 4, active: true },
-  { competitionType: "league", rank: 4, points: 3, active: true },
-  { competitionType: "league", rank: 5, points: 2, active: true },
-  { competitionType: "league", rank: 6, points: 1, active: true },
-  { competitionType: "cup", rank: 1, points: 5, active: true },
-  { competitionType: "cup", rank: 2, points: 3, active: true },
-  { competitionType: "super_cup", rank: 1, points: 3, active: true },
-  { competitionType: "super_cup", rank: 2, points: 2, active: true },
-  { competitionType: "champions_league", rank: 1, points: 13, active: true },
-  { competitionType: "champions_league", rank: 2, points: 10, active: true },
-  { competitionType: "champions_league", rank: 3, points: 7, active: true },
-  { competitionType: "champions_league", rank: 4, points: 5, active: true },
-];
-
-const DEFAULT_COMPETITION_PRIORITY = [
-  { competitionType: "world_cup", priority: 1 },
-  { competitionType: "champions_league", priority: 2 },
-  { competitionType: "league", priority: 3 },
-  { competitionType: "cup", priority: 4 },
-  { competitionType: "super_cup", priority: 5 },
-];
-
-function normalizeSeasonPointsType(value = "") {
-  const raw = String(value || "").trim();
-  const key = clean(raw);
-  if (!key) return "";
-  if (key.includes("worldcup") || key.includes("world_cup") || key.includes("كاسالعالم") || key.includes("كأسالعالم")) return "world_cup";
-  if (key.includes("champions") || key.includes("champions_league") || key.includes("دوريالابطال") || key.includes("دوريالأبطال")) return "champions_league";
-  if (key.includes("super") || key.includes("super_cup") || key.includes("السوبر")) return "super_cup";
-  if (key.includes("cup") || key.includes("الكاس") || key.includes("الكأس")) return "cup";
-  if (key.includes("league") || key.includes("الدوري") || key === "minileague") return "league";
-  return key;
-}
-
-function sheetBoolean(value, fallback = true) {
-  const key = clean(value);
-  if (!key) return fallback;
-  if (["false", "0", "no", "off", "inactive", "disabled", "لا", "كلا"].includes(key)) return false;
-  return true;
-}
-
-function buildSeasonPointsRuleMap(rows = []) {
-  const source = Array.isArray(rows) && rows.length ? rows : DEFAULT_SEASON_POINTS_RULES;
-  const map = new Map();
-  source.forEach((row) => {
-    const type = normalizeSeasonPointsType(row.competitionType || row.competitiontype || row.type || row.competition || row.trophyType || "");
-    const rank = toNumber(row.rank || row.position || row.place || row.order || "");
-    const points = toNumber(row.points || row.point || row.value || 0);
-    const active = sheetBoolean(row.active ?? row.enabled ?? row.status, true);
-    if (!type || !rank || !active) return;
-    map.set(`${type}::${rank}`, points);
-  });
-  return map;
-}
-
-function buildCompetitionPriorityList(rows = []) {
-  const source = Array.isArray(rows) && rows.length ? rows : DEFAULT_COMPETITION_PRIORITY;
-  return source
-    .map((row, index) => ({
-      competitionType: normalizeSeasonPointsType(row.competitionType || row.competitiontype || row.type || row.competition || ""),
-      priority: Math.max(1, toNumber(row.priority || row.order || row.rank || index + 1) || index + 1),
-      active: sheetBoolean(row.active ?? row.enabled ?? row.status, true),
-    }))
-    .filter((row) => row.competitionType && row.active)
-    .sort((a, b) => a.priority - b.priority || a.competitionType.localeCompare(b.competitionType));
-}
-
-function memberNameFromRows(rows = [], memberId = "") {
-  const id = cleanId(memberId);
-  const row = (rows || []).find((item) => same(item.memberId || item.id, id));
-  return row?.memberName || row?.name || id;
-}
-
-function loserFromMatch(match = {}) {
-  const winnerId = cleanId(match.winnerMemberId || "");
-  if (!winnerId) return null;
-  const homeId = cleanId(match.homeMemberId || "");
-  const awayId = cleanId(match.awayMemberId || "");
-  if (same(winnerId, homeId) && awayId && !String(awayId).startsWith("__")) {
-    return { memberId: awayId, memberName: match.awayName || awayId };
-  }
-  if (same(winnerId, awayId) && homeId && !String(homeId).startsWith("__")) {
-    return { memberId: homeId, memberName: match.homeName || homeId };
-  }
-  return null;
-}
-
-function completedCompetitionPlacementRows(competition = {}) {
-  if (clean(competition.status || "") !== "completed") return [];
-  const type = normalizeSeasonPointsType(competition.type || competition.competitionType || "");
-  const isGroupLeague = isLeagueGroupsCompetition(competition);
-  const isSingleGroupChampions = isChampionsLeagueSingleGroup(competition);
-  const participants = filterCompetitionParticipantsForCalculation(competition);
-  const matches = filterCompetitionMatchesForCalculation(competition);
-  const leagueStyle = (type === "league" && !isGroupLeague) || isSingleGroupChampions || type === "minileague";
-
-  if (leagueStyle) {
-    const standings = Array.isArray(competition.standings) && competition.standings.length
-      ? competition.standings
-      : computeLeagueStandings(participants, matches);
-    return (standings || [])
-      .filter((row) => cleanId(row.memberId || row.id || ""))
-      .map((row, index) => ({
-        rank: index + 1,
-        memberId: cleanId(row.memberId || row.id || ""),
-        memberName: row.memberName || row.name || memberNameFromRows(participants, row.memberId || row.id),
-      }));
-  }
-
-  const rewardRows = getKnockoutRewardRows(competition) || [];
-  if (rewardRows.length) {
-    return rewardRows
-      .filter((row) => cleanId(row.memberId || row.id || ""))
-      .map((row, index) => ({
-        rank: toNumber(row.rank || index + 1) || index + 1,
-        memberId: cleanId(row.memberId || row.id || ""),
-        memberName: row.memberName || row.name || memberNameFromRows(participants, row.memberId || row.id),
-      }));
-  }
-
-  const allMatches = Array.isArray(competition.matches) ? competition.matches : [];
-  const finalMatch = allMatches.find((match) => clean(match.phase || "") === "final" && clean(match.resultStatus || match.status) === "completed")
-    || allMatches.slice().reverse().find((match) => clean(match.resultStatus || match.status) === "completed" && cleanId(match.winnerMemberId || ""));
-  const thirdMatch = allMatches.find((match) => clean(match.phase || "") === "third_place" && clean(match.resultStatus || match.status) === "completed");
-  const rows = [];
-  if (finalMatch?.winnerMemberId) rows.push({ rank: 1, memberId: cleanId(finalMatch.winnerMemberId), memberName: finalMatch.winnerName || finalMatch.winnerMemberName || finalMatch.homeName || "" });
-  const runner = finalMatch ? loserFromMatch(finalMatch) : null;
-  if (runner?.memberId) rows.push({ rank: 2, ...runner });
-  if (thirdMatch?.winnerMemberId) rows.push({ rank: 3, memberId: cleanId(thirdMatch.winnerMemberId), memberName: thirdMatch.winnerName || thirdMatch.winnerMemberName || "" });
-  const fourth = thirdMatch ? loserFromMatch(thirdMatch) : null;
-  if (fourth?.memberId) rows.push({ rank: 4, ...fourth });
-
-  if (!rows.length && competition.championMemberId) {
-    rows.push({ rank: 1, memberId: cleanId(competition.championMemberId), memberName: competition.championMemberName || competition.championName || "" });
-  }
-  return rows;
-}
-
-function seasonPointsEventLabel(type = "", rank = 0) {
-  const typeLabel = {
-    world_cup: "كأس العالم",
-    champions_league: "دوري الأبطال",
-    league: "الدوري",
-    cup: "الكأس",
-    super_cup: "السوبر",
-  }[type] || type || "بطولة";
-  const rankLabel = rank === 1 ? "البطل" : rank === 2 ? "الوصيف" : rank === 3 ? "الثالث" : rank === 4 ? "الرابع" : `المركز ${rank}`;
-  return `${rankLabel} - ${typeLabel}`;
-}
-
-function firstCleanIdFromRow(row = {}, keys = []) {
-  for (const key of keys) {
-    const value = row?.[key];
-    const id = cleanId(value || "");
-    if (id) return id;
-  }
-  return "";
-}
-
-function firstTextFromRow(row = {}, keys = []) {
-  for (const key of keys) {
-    const value = String(row?.[key] ?? "").trim();
-    if (value) return value;
-  }
-  return "";
-}
-
-function sheetTournamentType(row = {}) {
-  return normalizeSeasonPointsType(
-    row.competitionType ||
-    row.competitiontype ||
-    row.type ||
-    row.trophyType ||
-    row.trophytype ||
-    row.trophyId ||
-    row.trophyid ||
-    row.trophyName ||
-    row.trophyname ||
-    row.name ||
-    row.title ||
-    ""
-  );
-}
-
-function sheetTournamentDate(row = {}) {
-  return String(row.completedDate || row.completeddate || row.endDate || row.enddate || row.date || row.createdAt || row.createdat || "").slice(0, 10);
-}
-
-function sheetPlacementRows(row = {}) {
-  const placements = [];
-  const add = (rank, idKeys, nameKeys) => {
-    const memberId = firstCleanIdFromRow(row, idKeys);
-    if (!memberId) return;
-    placements.push({
-      rank,
-      memberId,
-      memberName: firstTextFromRow(row, nameKeys) || memberId,
-    });
-  };
-
-  add(1,
-    ["winnerId", "winnerid", "championId", "championid", "memberId", "memberid", "rank1Id", "rank1id", "firstId", "firstid"],
-    ["winnerName", "winnername", "championName", "championname", "memberName", "membername", "rank1Name", "rank1name", "firstName", "firstname"]
-  );
-  add(2,
-    ["runnerUpId", "runnerupid", "runnerId", "runnerid", "secondId", "secondid", "rank2Id", "rank2id", "finalist2Id", "finalist2id", "viceChampionId", "vicechampionid"],
-    ["runnerUpName", "runnerupname", "runnerName", "runnername", "secondName", "secondname", "rank2Name", "rank2name", "finalist2Name", "finalist2name", "viceChampionName", "vicechampionname"]
-  );
-  add(3,
-    ["thirdId", "thirdid", "thirdPlaceId", "thirdplaceid", "rank3Id", "rank3id"],
-    ["thirdName", "thirdname", "thirdPlaceName", "thirdplacename", "rank3Name", "rank3name"]
-  );
-  add(4,
-    ["fourthId", "fourthid", "fourthPlaceId", "fourthplaceid", "rank4Id", "rank4id"],
-    ["fourthName", "fourthname", "fourthPlaceName", "fourthplacename", "rank4Name", "rank4name"]
-  );
-  add(5,
-    ["fifthId", "fifthid", "fifthPlaceId", "fifthplaceid", "rank5Id", "rank5id"],
-    ["fifthName", "fifthname", "fifthPlaceName", "fifthplacename", "rank5Name", "rank5name"]
-  );
-  add(6,
-    ["sixthId", "sixthid", "sixthPlaceId", "sixthplaceid", "rank6Id", "rank6id"],
-    ["sixthName", "sixthname", "sixthPlaceName", "sixthplacename", "rank6Name", "rank6name"]
-  );
-
-  return placements;
-}
-
-function seasonPointSourceText(value = "") {
-  return clean(String(value || "").trim());
-}
-
-function hasTournamentNumber(value = "") {
-  return /[0-9٠-٩]/.test(String(value || ""));
-}
-
-function genericTournamentText(value = "") {
-  const key = seasonPointSourceText(value);
-  return [
-    "الدوري",
-    "دوري",
-    "الكاس",
-    "الكأس",
-    "كاس",
-    "كأس",
-    "السوبر",
-    "كاسالسوبر",
-    "كأسالسوبر",
-    "دوريالابطال",
-    "دوريالأبطال",
-    "كاسالعالم",
-    "كأسالعالم",
-    "league",
-    "cup",
-    "supercup",
-    "championsleague",
-    "worldcup",
-  ].includes(key);
-}
-
-function specificTournamentTextFromRow(row = {}, keys = []) {
-  for (const key of keys) {
-    const raw = String(row?.[key] ?? "").trim();
-    const value = seasonPointSourceText(raw);
-    if (!value || genericTournamentText(value)) continue;
-    if (hasTournamentNumber(raw) || value.length >= 8) return value;
-  }
-  return "";
-}
-
-function sourceKeysForSeasonPointRow(type = "", row = {}, placements = []) {
-  const safeType = normalizeSeasonPointsType(type);
-  const keys = new Set();
-  if (!safeType) return keys;
-
-  const explicitId = firstCleanIdFromRow(row, [
-    "competitionId", "competitionid", "firebaseCompetitionId", "firebasecompetitionid",
-    "competitiveCompetitionId", "competitivecompetitionid", "competitionDocId", "competitiondocid",
-    "id", "docId", "docid"
-  ]);
-  if (explicitId) keys.add(`id::${explicitId}`);
-
-  const championPlacement = (placements || []).find((item) => toNumber(item.rank || 0) === 1);
-  const championId = cleanId(championPlacement?.memberId || "") || firstCleanIdFromRow(row, [
-    "winnerId", "winnerid", "championId", "championid", "championMemberId", "championmemberid",
-    "winnerMemberId", "winnermemberid", "memberId", "memberid", "rank1Id", "rank1id", "firstId", "firstid"
-  ]);
-
-  const date = sheetTournamentDate(row);
-  const name = specificTournamentTextFromRow(row, [
-    "competitionName", "competitionname", "name", "title", "tournamentName", "tournamentname",
-    "seasonTournamentName", "seasontournamentname", "editionName", "editionname"
-  ]);
-  const edition = specificTournamentTextFromRow(row, [
-    "edition", "editionNo", "editionno", "editionNumber", "editionnumber",
-    "tournamentNumber", "tournamentnumber", "competitionNumber", "competitionnumber",
-    "trophyNumber", "trophynumber", "version", "number"
-  ]);
-
-  if (safeType && championId && date) keys.add(`type_champion_date::${safeType}::${championId}::${date}`);
-  if (safeType && championId && name) keys.add(`type_champion_name::${safeType}::${championId}::${name}`);
-  if (safeType && championId && edition) keys.add(`type_champion_edition::${safeType}::${championId}::${edition}`);
-  if (safeType && name && date) keys.add(`type_name_date::${safeType}::${name}::${date}`);
-  if (safeType && edition && date) keys.add(`type_edition_date::${safeType}::${edition}::${date}`);
-  if (safeType && name && hasTournamentNumber(name)) keys.add(`type_name::${safeType}::${name}`);
-  if (safeType && edition) keys.add(`type_edition::${safeType}::${edition}`);
-
-  return keys;
-}
-
-function sourceKeysForFirebaseCompetition(type = "", competition = {}, placements = []) {
-  const safeType = normalizeSeasonPointsType(type || competition.type || competition.competitionType || "");
-  const keys = new Set();
-  if (!safeType) return keys;
-
-  const id = cleanId(competition.id || competition.competitionId || competition.competitionid || competition.docId || competition.docid || "");
-  if (id) keys.add(`id::${id}`);
-
-  const championPlacement = (placements || []).find((item) => toNumber(item.rank || 0) === 1);
-  const championId = cleanId(
-    championPlacement?.memberId ||
-    competition.championMemberId ||
-    competition.championmemberid ||
-    competition.winnerMemberId ||
-    competition.winnermemberid ||
-    competition.winnerId ||
-    competition.winnerid ||
-    ""
-  );
-
-  const date = String(competition.completedDate || competition.completeddate || competition.endDate || competition.enddate || competition.date || competition.startDate || competition.startdate || "").slice(0, 10);
-  const name = specificTournamentTextFromRow(competition, [
-    "competitionName", "competitionname", "name", "title", "tournamentName", "tournamentname",
-    "seasonTournamentName", "seasontournamentname", "editionName", "editionname"
-  ]);
-  const edition = specificTournamentTextFromRow(competition, [
-    "edition", "editionNo", "editionno", "editionNumber", "editionnumber",
-    "tournamentNumber", "tournamentnumber", "competitionNumber", "competitionnumber",
-    "trophyNumber", "trophynumber", "version", "number"
-  ]);
-
-  if (safeType && championId && date) keys.add(`type_champion_date::${safeType}::${championId}::${date}`);
-  if (safeType && championId && name) keys.add(`type_champion_name::${safeType}::${championId}::${name}`);
-  if (safeType && championId && edition) keys.add(`type_champion_edition::${safeType}::${championId}::${edition}`);
-  if (safeType && name && date) keys.add(`type_name_date::${safeType}::${name}::${date}`);
-  if (safeType && edition && date) keys.add(`type_edition_date::${safeType}::${edition}::${date}`);
-  if (safeType && name && hasTournamentNumber(name)) keys.add(`type_name::${safeType}::${name}`);
-  if (safeType && edition) keys.add(`type_edition::${safeType}::${edition}`);
-
-  return keys;
-}
-
-function sourceKeySetsIntersect(a = new Set(), b = new Set()) {
-  for (const value of a) {
-    if (b.has(value)) return true;
-  }
-  return false;
-}
-
-
-function dedupeSeasonPointSheetRows(rows = []) {
-  const accepted = [];
-  const seenKeySets = [];
-  (rows || []).forEach((item) => {
-    const keys = sourceKeysForSeasonPointRow(item.type, item.row, item.placements);
-    if (!keys.size) {
-      keys.add(`fallback::${item.type}::${seasonPointDisplayName(item.row, item.type, 1)}::${sheetTournamentDate(item.row)}`);
-    }
-    const duplicate = seenKeySets.some((existing) => sourceKeySetsIntersect(existing, keys));
-    if (duplicate) return;
-    accepted.push(item);
-    seenKeySets.push(keys);
-  });
-  return accepted;
-}
-
-
-
-function seasonPointsTypeLabel(type = "") {
-  return {
-    world_cup: "كأس العالم",
-    champions_league: "دوري الأبطال",
-    league: "الدوري",
-    cup: "الكأس",
-    super_cup: "كأس السوبر",
-  }[normalizeSeasonPointsType(type)] || String(type || "بطولة");
-}
-
-function seasonPointFirstText(row = {}, keys = []) {
-  for (const key of keys) {
-    const value = String(row?.[key] ?? "").trim();
-    if (value) return value;
-  }
-  return "";
-}
-
-function seasonPointEditionText(row = {}) {
-  return seasonPointFirstText(row, [
-    "edition", "editionNo", "editionno", "editionNumber", "editionnumber",
-    "tournamentNumber", "tournamentnumber", "competitionNumber", "competitionnumber",
-    "trophyNumber", "trophynumber", "version", "number", "copy", "copyNumber",
-    "serial", "serialNumber", "archiveNumber", "archivenumber", "recordNumber", "recordnumber",
-    "نسخة", "النسخة", "رقمالنسخة", "رقم_النسخة", "رقمالبطولة", "رقم_البطولة"
-  ]);
-}
-
-function seasonPointDisplayName(sourceRow = {}, type = "", rank = 0) {
-  const typeLabel = seasonPointsTypeLabel(type);
-  const named = seasonPointFirstText(sourceRow, [
-    "fullName", "fullname", "displayName", "displayname",
-    "archiveName", "archivename", "recordName", "recordname",
-    "competitionName", "competitionname", "tournamentName", "tournamentname",
-    "seasonTournamentName", "seasontournamentname", "editionName", "editionname",
-    "title", "name", "trophyName", "trophyname"
-  ]);
-  const edition = seasonPointEditionText(sourceRow);
-
-  if (named && edition && !String(named).includes(String(edition))) return `${named} ${edition}`;
-  if (named && !genericTournamentText(named)) return named;
-  if (edition && !String(typeLabel).includes(String(edition))) return `${typeLabel} ${edition}`;
-  if (named) return named;
-  return seasonPointsEventLabel(type, rank);
-}
-
-function seasonPointFinalText(row = {}) {
-  return seasonPointFirstText(row, [
-    "finalResult", "finalresult", "result", "score", "finalScore", "finalscore",
-    "matchResult", "matchresult", "final", "notes", "note", "details", "description"
-  ]);
-}
-
-function buildSeasonPointDetails(sourceRow = {}, type = "", rank = 0, points = 0, memberName = "") {
-  const normalizedType = normalizeSeasonPointsType(type);
-  const edition = seasonPointEditionText(sourceRow);
-  const details = {
-    name: seasonPointDisplayName(sourceRow, normalizedType, rank),
-    type: normalizedType,
-    typeLabel: seasonPointsTypeLabel(normalizedType),
-    edition,
-    rank,
-    rankLabel: rank === 1 ? "البطل" : rank === 2 ? "الوصيف" : rank === 3 ? "الثالث" : rank === 4 ? "الرابع" : rank === 5 ? "الخامس" : rank === 6 ? "السادس" : (rank ? `المركز ${rank}` : "-"),
-    points: toNumber(points || 0),
-    memberName: memberName || "",
-    date: sourceRow.completedDate || sourceRow.completeddate || sourceRow.endDate || sourceRow.enddate || sourceRow.date || sourceRow.createdAt || sourceRow.createdat || "",
-    championName: seasonPointFirstText(sourceRow, ["winnerName", "winnername", "championName", "championname", "rank1Name", "rank1name", "firstName", "firstname", "winnerId", "winnerid", "championId", "championid", "memberId", "memberid"]),
-    runnerUpName: seasonPointFirstText(sourceRow, ["runnerUpName", "runnerupname", "runnerName", "runnername", "secondName", "secondname", "rank2Name", "rank2name", "finalist2Name", "finalist2name", "runnerUpId", "runnerupid", "runnerId", "runnerid", "secondId", "secondid"]),
-    thirdName: seasonPointFirstText(sourceRow, ["thirdName", "thirdname", "thirdPlaceName", "thirdplacename", "rank3Name", "rank3name", "thirdId", "thirdid", "thirdPlaceId", "thirdplaceid"]),
-    fourthName: seasonPointFirstText(sourceRow, ["fourthName", "fourthname", "fourthPlaceName", "fourthplacename", "rank4Name", "rank4name", "fourthId", "fourthid", "fourthPlaceId", "fourthplaceid"]),
-    fifthName: seasonPointFirstText(sourceRow, ["fifthName", "fifthname", "fifthPlaceName", "fifthplacename", "rank5Name", "rank5name", "fifthId", "fifthid", "rank5Id", "rank5id"]),
-    sixthName: seasonPointFirstText(sourceRow, ["sixthName", "sixthname", "sixthPlaceName", "sixthplacename", "rank6Name", "rank6name", "sixthId", "sixthid", "rank6Id", "rank6id"]),
-    finalText: seasonPointFinalText(sourceRow),
-    system: sourceRow.system || sourceRow.tournamentSystem || sourceRow.tournamentsystem || "",
-    notes: sourceRow.notes || sourceRow.note || "",
-    source: sourceRow.source || "",
-  };
-  return details;
-}
-
-function addSeasonPointEventToMember({
-  membersMap,
-  memberId,
-  memberName = "",
-  type,
-  rank,
-  points,
-  sourceRow = {},
-  source = "",
-  competitionId = "",
-} = {}) {
-  const safeId = cleanId(memberId || "");
-  if (!safeId || !type || !rank) return;
-  if (!membersMap.has(safeId)) {
-    membersMap.set(safeId, {
-      memberId: safeId,
-      id: safeId,
-      name: memberName || safeId,
-      team: "",
-      avatar: "",
-      teamLogo: "",
-      nationalLogo: "",
-      titles: 0,
-      points: 0,
-      rows: [],
-      pointEvents: [],
-      titleBreakdown: {},
-    });
-  }
-
-  const target = membersMap.get(safeId);
-  const safePoints = toNumber(points || 0);
-  target.points += safePoints;
-  const eventDetails = buildSeasonPointDetails(sourceRow, type, rank, safePoints, target.name || memberName || safeId);
-  const eventRow = {
-    id: sourceRow.id || sourceRow.recordId || sourceRow.recordid || competitionId || "",
-    competitionId,
-    trophyId: type,
-    name: eventDetails.name,
-    type,
-    typeLabel: eventDetails.typeLabel,
-    rank,
-    rankLabel: eventDetails.rankLabel,
-    points: safePoints,
-    winnerId: rank === 1 ? safeId : "",
-    memberId: safeId,
-    memberName: target.name || memberName || safeId,
-    date: eventDetails.date,
-    details: eventDetails,
-    source,
-  };
-  target.pointEvents.push(eventRow);
-  if (rank === 1) {
-    target.titles += 1;
-    target.titleBreakdown[type] = toNumber(target.titleBreakdown[type] || 0) + 1;
-    target.rows.push({ ...eventRow, winnerId: safeId });
-  }
-}
-
-function computeSeasonPointsRanking({
-  members = [],
-  competitions = [],
-  sheetSeasonRows = [],
-  activeSeasonId = "",
-  pointsRules = [],
-  competitionPriority = [],
-} = {}) {
-  const ruleMap = buildSeasonPointsRuleMap(pointsRules);
-  const priorityRows = buildCompetitionPriorityList(competitionPriority);
-  const membersMap = new Map();
-  const sheetRowsWithPlacements = dedupeSeasonPointSheetRows(
-    (sheetSeasonRows || [])
-      .map((row) => {
-        const type = sheetTournamentType(row);
-        const placements = sheetPlacementRows(row);
-        return { row, type, placements };
-      })
-      .filter((item) => item.type && item.placements.length)
-  );
-
-  (members || []).forEach((member) => {
-    const memberId = cleanId(member.id || member.memberId || "");
-    if (!memberId) return;
-    membersMap.set(memberId, {
-      ...member,
-      memberId,
-      id: memberId,
-      name: member.name || member.memberName || memberId,
-      team: member.team || "",
-      avatar: member.avatar || member.image || "",
-      teamLogo: member.teamlogo || member.teamLogo || "",
-      nationalLogo: member.nationallogo || member.nationalLogo || "",
-      titles: 0,
-      points: 0,
-      rows: [],
-      pointEvents: [],
-      titleBreakdown: {},
-    });
-  });
-
-  // Season points are intentionally calculated from Google Sheets only.
-  // Firebase competitions are used to organize/play tournaments inside the app,
-  // but they do not affect the official season ranking until the tournament
-  // is recorded in the season/archive sheet with placement columns.
-
-  sheetRowsWithPlacements.forEach(({ row, type, placements }) => {
-    placements.forEach((placement) => {
-      const rank = toNumber(placement.rank || 0);
-      const ruleKey = `${type}::${rank}`;
-      if (!ruleMap.has(ruleKey)) return;
-      addSeasonPointEventToMember({
-        membersMap,
-        memberId: placement.memberId,
-        memberName: placement.memberName,
-        type,
-        rank,
-        points: ruleMap.get(ruleKey),
-        sourceRow: row,
-        source: "season_sheet_points",
-        competitionId: row.competitionId || row.competitionid || "",
-      });
-    });
-  });
-
-  return Array.from(membersMap.values())
-    .map((row) => ({
-      ...row,
-      points: Math.max(0, toNumber(row.points || 0)),
-      titles: Math.max(0, toNumber(row.titles || 0)),
-      rows: sortRecordsDesc(row.rows || []),
-      pointEvents: sortRecordsDesc(row.pointEvents || []),
-    }))
-    .sort((a, b) => {
-      if (toNumber(b.points) !== toNumber(a.points)) return toNumber(b.points) - toNumber(a.points);
-      for (const item of priorityRows) {
-        const type = item.competitionType;
-        const diff = toNumber(b.titleBreakdown?.[type] || 0) - toNumber(a.titleBreakdown?.[type] || 0);
-        if (diff) return diff;
-      }
-      if (toNumber(b.titles) !== toNumber(a.titles)) return toNumber(b.titles) - toNumber(a.titles);
-      return String(a.name || "").localeCompare(String(b.name || ""), "ar");
-    });
-}
-
-function parseMaxProfessionalPlayersLimit(value, fallback = MAX_PRO_PLAYERS) {
-  const raw = String(value ?? "").trim();
-  const key = clean(raw);
-  if (["unlimited", "open", "infinite", "infinity", "مفتوح", "بلاحد", "بدونحد"].includes(key)) return Infinity;
-  const parsed = toNumber(raw);
-  return parsed > 0 ? parsed : fallback;
-}
 
 export default function App() {
   const [members, setMembers] = useState([]);
@@ -830,8 +206,6 @@ export default function App() {
   const [transfers, setTransfers] = useState([]);
   const [importantLinks, setImportantLinks] = useState([]);
   const [config, setConfig] = useState(DEFAULT_CONFIG);
-  const [pointsRules, setPointsRules] = useState([]);
-  const [competitionPriority, setCompetitionPriority] = useState([]);
 
   const [page, setPage] = useState(DEFAULT_CONFIG.defaultPage);
   const [selectedId, setSelectedId] = useState("");
@@ -870,21 +244,9 @@ export default function App() {
   const [firebasePushTokens, setFirebasePushTokens] = useState([]);
   const [firebaseCompetitions, setFirebaseCompetitions] = useState([]);
   const [focusedCompetitionId, setFocusedCompetitionId] = useState("");
-
-  const maxProfessionalPlayersLimit = useMemo(
-    () => parseMaxProfessionalPlayersLimit(config.maxProfessionalPlayers, MAX_PRO_PLAYERS),
-    [config.maxProfessionalPlayers]
-  );
-  const maxProfessionalPlayersLabel = Number.isFinite(maxProfessionalPlayersLimit)
-    ? String(maxProfessionalPlayersLimit)
-    : "مفتوح";
-  const proLimitExceeded = (value) =>
-    Number.isFinite(maxProfessionalPlayersLimit) && toNumber(value) > maxProfessionalPlayersLimit;
   const [seasonHubTab, setSeasonHubTab] = useState("members");
   const [archiveDefaultMode, setArchiveDefaultMode] = useState("trophy");
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const navStateRef = useRef(null);
-  const backLockRef = useRef(false);
   const [pushStatus, setPushStatus] = useState(getInitialPushStatus());
   const [pushBusy, setPushBusy] = useState(false);
 
@@ -990,14 +352,8 @@ export default function App() {
       return undefined;
     }
 
-    const q = query(
-      collection(db, "notifications"),
-      orderBy("createdAt", "desc"),
-      limit(50)
-    );
-
     const unsubscribe = onSnapshot(
-      q,
+      collection(db, "notifications"),
       (snapshot) => {
         const rows = snapshot.docs.map((item) => ({
           id: item.id,
@@ -1351,105 +707,128 @@ export default function App() {
   }, [loading]);
 
   useEffect(() => {
-    navStateRef.current = {
-      page,
-      selectedId,
-      detailView,
-      detailStack,
-      menuOpen,
-      infoModal,
-      notificationsOpen,
-    };
-  }, [page, selectedId, detailView, detailStack, menuOpen, infoModal, notificationsOpen]);
-
-  useEffect(() => {
-    try {
-      if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
-      const currentState = window.history.state || {};
-      window.history.replaceState({ ...currentState, fifaGroupRoot: true, fifaGroupBase: true }, "");
-      window.history.pushState({ fifaGroupRoot: true, fifaGroupGuard: true }, "");
-    } catch {}
+    window.history.replaceState({ fifaGroupRoot: true }, "");
 
     function handleNativeBack() {
-      performStableBack({ fromNative: true });
+      if (infoModal) {
+        setInfoModal(null);
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+        return;
+      }
+
+      if (menuOpen) {
+        setMenuOpen(false);
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+        return;
+      }
+
+      if (detailView) {
+        if (detailStack.length) {
+          const previousEntry = detailStack[detailStack.length - 1];
+          setDetailStack((stack) => stack.slice(0, -1));
+          setDetailView(previousEntry.view);
+          restoreScrollPosition(previousEntry.scrollTop);
+        } else {
+          setDetailView(null);
+          restoreScrollPosition(baseScrollRef.current || 0);
+        }
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+        return;
+      }
+
+      if (selectedId) {
+        closePublicMemberProfile();
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+        return;
+      }
+
+      if (pageHistoryRef.current.length > 0) {
+        const prev = pageHistoryRef.current[pageHistoryRef.current.length - 1];
+        pageHistoryRef.current = pageHistoryRef.current.slice(0, -1);
+        setPage(prev.page);
+        setSelectedId(prev.selectedId || "");
+        setMemberTab(prev.memberTab || "players");
+        setSearch(prev.search || "");
+        setFocusedCompetitionId(prev.focusedCompetitionId || "");
+        if (prev.page === "season") setSeasonHubTab(prev.seasonHubTab || "members");
+        setDetailView(null);
+        setDetailStack([]);
+        setInfoModal(null);
+        setMenuOpen(false);
+        restoreScrollPosition(prev.scrollTop || 0);
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+        return;
+      }
+
+      if (page !== "home") {
+        setPage("home");
+        setSelectedId("");
+        setDetailView(null);
+        setDetailStack([]);
+        setInfoModal(null);
+        setMenuOpen(false);
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+        scrollAppToTop("auto");
+        return;
+      }
+
+      window.history.pushState({ fifaGroupRoot: true }, "");
     }
 
     window.addEventListener("popstate", handleNativeBack);
     return () => window.removeEventListener("popstate", handleNativeBack);
-  }, []);
+  }, [page, selectedId, detailView, detailStack, menuOpen, infoModal]);
 
   async function loadData() {
-    const fetchWithCache = async (url, isOptional = false) => {
-      const cacheKey = `fg_cache_${url}`;
-      const fetcher = isOptional ? loadOptionalCSV : loadCSV;
-      
-      const networkPromise = fetcher(url).then(data => {
-        localStorage.setItem(cacheKey, JSON.stringify(data));
-        return data;
-      }).catch(err => {
-        if (!isOptional) console.warn("تعذر الجلب من الشبكة:", url);
-        return null;
-      });
-
-      const cached = localStorage.getItem(cacheKey);
-      if (cached) {
-        try {
-          return { data: JSON.parse(cached), isCached: true, networkPromise };
-        } catch(e) {}
-      }
-      
-      const freshData = await networkPromise;
-      if (!freshData && !isOptional) throw new Error("فشل الاتصال ولا يوجد كاش");
-      return { data: freshData || [], isCached: false, networkPromise: null };
-    };
-
     try {
-      const results = await Promise.all([
-        fetchWithCache(URLS.members), fetchWithCache(URLS.players),
-        fetchWithCache(URLS.trophiesMaster), fetchWithCache(URLS.leagueArchive),
-        fetchWithCache(URLS.tournamentsArchive), fetchWithCache(URLS.seasons),
-        fetchWithCache(URLS.finance), fetchWithCache(URLS.transfers),
-        fetchWithCache(URLS.importantLinks), fetchWithCache(URLS.settings, true),
-        fetchWithCache(URLS.pointsRules, true), fetchWithCache(URLS.competitionPriority, true),
+      const [
+        membersRows,
+        playersRows,
+        masterRows,
+        leagueRows,
+        tournamentRows,
+        seasonRows,
+        financeRows,
+        transferRows,
+        linkRows,
+        settingsRows,
+      ] = await Promise.all([
+        loadCSV(URLS.members),
+        loadCSV(URLS.players),
+        loadCSV(URLS.trophiesMaster),
+        loadCSV(URLS.leagueArchive),
+        loadCSV(URLS.tournamentsArchive),
+        loadCSV(URLS.seasons),
+        loadCSV(URLS.finance),
+        loadCSV(URLS.transfers),
+        loadCSV(URLS.importantLinks),
+        loadOptionalCSV(URLS.settings),
       ]);
 
-      const applyDataToState = (dataArray) => {
-        const [mRows, pRows, masterRows, leagueRows, tourRows, sRows, fRows, tRows, lRows, sRows2, pointRows, priorityRows] = dataArray;
-        const nextConfig = buildConfig(sRows2);
-        const periods = getTransferPeriods(tRows);
-
-        setMembers(mRows.map(m => ({
-          ...m,
-          avatar: normalizeImageUrl(m.avatar || "") || m.avatar || "",
-          image: normalizeImageUrl(m.image || "") || m.image || "",
-          teamlogo: normalizeImageUrl(m.teamlogo || "") || m.teamlogo || "",
-          nationallogo: normalizeImageUrl(m.nationallogo || "") || m.nationallogo || "",
-        })));
-        setPlayers(pRows);
-        setTrophiesMaster(masterRows);
-        setLeagueArchive(leagueRows);
-        setTournamentsArchive(tourRows);
-        setSeasons(sRows);
-        setFinance(fRows);
-        setTransfers(tRows);
-        setImportantLinks(lRows);
-        setPointsRules(pointRows || []);
-        setCompetitionPriority(priorityRows || []);
-        setConfig(nextConfig);
-        setTransferPeriod(periods[0]?.id || "");
-      };
-
-      const currentData = results.map(r => r.data);
-      applyDataToState(currentData);
+      const nextConfig = buildConfig(settingsRows);
+      const periods = getTransferPeriods(transferRows);
+      setMembers(membersRows.map(m => ({
+        ...m,
+        avatar: normalizeImageUrl(m.avatar || "") || m.avatar || "",
+        image:  normalizeImageUrl(m.image  || "") || m.image  || "",
+        teamlogo:     normalizeImageUrl(m.teamlogo     || "") || m.teamlogo     || "",
+        nationallogo: normalizeImageUrl(m.nationallogo || "") || m.nationallogo || "",
+      })));
+      setPlayers(playersRows);
+      setTrophiesMaster(masterRows);
+      setLeagueArchive(leagueRows);
+      setTournamentsArchive(tournamentRows);
+      setSeasons(seasonRows);
+      setFinance(financeRows);
+      setTransfers(transferRows);
+      setImportantLinks(linkRows);
+      setConfig(nextConfig);
       setPage("home");
-      setLoading(false);
-
-      if (results.some(r => r.isCached)) {
-        Promise.all(results.map(r => r.networkPromise || r.data)).then(applyDataToState).catch(() => {});
-      }
+      setTransferPeriod(periods[0]?.id || "");
     } catch (err) {
       console.error(err);
       setError(DEFAULT_CONFIG.errorTitle);
+    } finally {
       setLoading(false);
     }
   }
@@ -1490,14 +869,7 @@ export default function App() {
   }
 
   const rankedMembers = useMemo(() => {
-    const seasonRows = computeSeasonPointsRanking({
-      members: activeMembers,
-      competitions: firebaseCompetitions,
-      sheetSeasonRows: activeSeasonRows,
-      activeSeasonId,
-      pointsRules,
-      competitionPriority,
-    });
+    const seasonRows = computeSeasonRanking(activeMembers, activeSeasonRows, trophyMap);
     const memberMap = new Map(activeMembers.map((member) => [cleanId(member.id || member.memberId || ""), member]));
     return seasonRows.map((row, index) => {
       const memberId = cleanId(row.memberId || row.id || "");
@@ -1517,7 +889,7 @@ export default function App() {
         rankOrder: index + 1,
       };
     });
-  }, [activeMembers, firebaseCompetitions, activeSeasonRows, activeSeasonId, pointsRules, competitionPriority]);
+  }, [activeMembers, activeSeasonRows, trophyMap]);
 
   const currentMemberId = cleanId(authProfile?.memberId || authProfile?.memberid || "");
   const currentMember = members.find((member) => same(member.id, currentMemberId));
@@ -1898,7 +1270,7 @@ export default function App() {
     const beneficiaryMemberId = cleanId(payload.beneficiaryMemberId || "");
     const amount = parseFinanceAmount(payload.amount);
     const reason = String(payload.reason || "").trim();
-    const startDate = String(payload.startDate || "").slice(0, 10);
+    const startDate = String(payload.startDate || new Date().toISOString().slice(0, 10)).slice(0, 10);
     const endDate = String(payload.endDate || "").slice(0, 10);
     const member = members.find((item) => same(item.id, memberId));
     if (!memberId || !member) throw new Error("اختر العضو صاحب العقوبة.");
@@ -2806,10 +2178,10 @@ export default function App() {
         const deltas = getOfferProjectedProDeltas(offer);
         const buyerProjectedProCount = ledgerProCount(deltas.buyerId) + deltas.buyerDelta;
         const sellerProjectedProCount = ledgerProCount(deltas.sellerId) + deltas.sellerDelta;
-        if (proLimitExceeded(buyerProjectedProCount) || proLimitExceeded(sellerProjectedProCount)) {
-          const failureReason = proLimitExceeded(buyerProjectedProCount)
-            ? "تعذر تنفيذ الصفقة عند فتح السوق لأن قائمة المستفيد ستتجاوز حد " + maxProfessionalPlayersLabel + " محترفين."
-            : "تعذر تنفيذ الصفقة عند فتح السوق لأن قائمة صاحب لاعب التبادل ستتجاوز حد " + maxProfessionalPlayersLabel + " محترفين.";
+        if (buyerProjectedProCount > MAX_PRO_PLAYERS || sellerProjectedProCount > MAX_PRO_PLAYERS) {
+          const failureReason = buyerProjectedProCount > MAX_PRO_PLAYERS
+            ? "تعذر تنفيذ الصفقة عند فتح السوق لأن قائمة المستفيد ستتجاوز حد 5 محترفين."
+            : "تعذر تنفيذ الصفقة عند فتح السوق لأن قائمة صاحب لاعب التبادل ستتجاوز حد 5 محترفين.";
           await updateDoc(doc(db, "playerOffers", offer.id), {
             status: "executionFailed",
             pendingExecutionStatus: "failed",
@@ -3053,19 +2425,9 @@ export default function App() {
     const clSingleGroup = competitionType === "champions_league" && championsLeagueFormat === "single_group";
     const leagueFormat = competitionType === "league" && ["two_groups", "league_two_groups_knockout"].includes(clean(payload.leagueFormat || payload.leagueGroupMode || "")) ? "two_groups" : "single_group";
     const leagueTwoGroupsEnabled = competitionType === "league" && leagueFormat === "two_groups";
-    const groupAssignmentMode = clean(payload.groupAssignmentMode || "auto") === "manual" ? "manual" : "auto";
-    const manualGroups = payload.manualGroups && typeof payload.manualGroups === "object" ? payload.manualGroups : {};
-    const manualGroupKeys = competitionType === "world_cup" ? ["A", "B", "C"] : ["A", "B"];
-    const manualGroupMaxSize = competitionType === "world_cup" ? 3 : 4;
-    const manualGroupAssignmentSupported =
-      (competitionType === "league" && leagueTwoGroupsEnabled) ||
-      (competitionType === "world_cup" && participantIds.length <= 9 && !worldCupQualifiersEnabled) ||
-      (competitionType === "champions_league" && !clSingleGroup && participantIds.length <= 8 && !championsLeagueQualifiersEnabled);
-    const manualGroupAssignmentEnabled = groupAssignmentMode === "manual" && manualGroupAssignmentSupported;
-    const tieBreakFinalMode = clean(payload.tieBreakFinalMode || payload.groupTieBreakMode || "playoff") === "seed" ? "seed" : "playoff";
     if (competitionType === "super_cup" && participantIds.length !== 2) throw new Error("كأس السوبر مباراة نهائية بين عضوين فقط. اختر عضوين بالضبط.");
     if (competitionType === "world_cup" && participantIds.length < 4) throw new Error("كأس العالم يحتاج 4 مشاركين على الأقل حتى يمكن تكوين المتأهلين الأربعة للأدوار الإقصائية.");
-    if (clSingleGroup && (participantIds.length < 3 || participantIds.length > 5)) throw new Error("دوري الأبطال بنظام مجموعة واحدة يدعم من 3 إلى 5 أعضاء فقط.");
+    if (clSingleGroup && participantIds.length !== 4) throw new Error("دوري الأبطال بنظام مجموعة واحدة يتطلب 4 أعضاء بالضبط. اختر 4 أعضاء للمتابعة.");
     if (competitionType === "champions_league" && !clSingleGroup && participantIds.length < 4) throw new Error("دوري الأبطال يحتاج 4 مشاركين على الأقل حتى يمكن تكوين مجموعتين ونصف النهائي.");
     if (leagueTwoGroupsEnabled && participantIds.length < 4) throw new Error("الدوري بنظام مجموعتين يحتاج 4 مشاركين على الأقل.");
     if (leagueTwoGroupsEnabled && participantIds.length > 8) throw new Error("الدوري بنظام مجموعتين يدعم حتى 8 مشاركين حاليًا.");
@@ -3086,30 +2448,6 @@ export default function App() {
       if (participantIds.length + leagueQualifierQualifiedCount > 8) throw new Error("عدد المشاركين المباشرين + المتأهلين من الملحق يجب ألا يتجاوز 8 أعضاء في الدوري.");
     }
 
-    if (groupAssignmentMode === "manual" && !manualGroupAssignmentSupported) {
-      throw new Error("التوزيع اليدوي للمجموعات متاح فقط للبطولات ذات المجموعات بدون ملحق/تصفيات حالياً.");
-    }
-    if (manualGroupAssignmentEnabled) {
-      const normalizedManualGroups = {};
-      manualGroupKeys.forEach((key) => {
-        normalizedManualGroups[key] = Array.isArray(manualGroups[key]) ? manualGroups[key].map(cleanId).filter(Boolean) : [];
-      });
-      const groupedIds = manualGroupKeys.flatMap((key) => normalizedManualGroups[key] || []);
-      const uniqueGroupedIds = Array.from(new Set(groupedIds));
-      const selectedSet = new Set(participantIds.map(cleanId).filter(Boolean));
-      const hasAllParticipants = participantIds.every((id) => uniqueGroupedIds.some((gid) => same(gid, id)));
-      const hasOnlySelected = uniqueGroupedIds.every((id) => selectedSet.has(id));
-      if (!hasAllParticipants || !hasOnlySelected || uniqueGroupedIds.length !== participantIds.length || groupedIds.length !== uniqueGroupedIds.length) {
-        throw new Error("يجب توزيع كل المشاركين مرة واحدة فقط داخل المجموعات اليدوية.");
-      }
-      if (manualGroupKeys.some((key) => !(normalizedManualGroups[key] || []).length)) {
-        throw new Error("لا يمكن ترك مجموعة فارغة في التوزيع اليدوي.");
-      }
-      if (manualGroupKeys.some((key) => (normalizedManualGroups[key] || []).length > manualGroupMaxSize)) {
-        throw new Error("عدد أعضاء إحدى المجموعات أكبر من الحد المسموح.");
-      }
-    }
-
     const manualSeeds = payload.manualSeeds && typeof payload.manualSeeds === "object" ? payload.manualSeeds : {};
     const cupManualPairingsEnabled = competitionType === "cup" && !cupLinkedLeagueGroupsEnabled && Boolean(payload.cupManualPairingsEnabled);
     const cupManualPairings = cupManualPairingsEnabled ? normalizeCupManualPairings(payload.cupPairings) : [];
@@ -3123,7 +2461,6 @@ export default function App() {
         image: member.avatar || avatar(member.name || member.id),
         order: index + 1,
         seed: ["league", "cup", "world_cup", "champions_league", "mini_league"].includes(competitionType) ? Math.max(1, toNumber(manualSeeds[cleanId(member.id)] || index + 1)) : index + 1,
-        tieBreakFinalMode,
         status: "active",
       }))
       .sort((a, b) => ["league", "cup", "world_cup", "champions_league", "mini_league"].includes(competitionType) ? (toNumber(a.seed) - toNumber(b.seed) || clean(a.memberName).localeCompare(clean(b.memberName), "ar")) : 0);
@@ -3158,11 +2495,7 @@ export default function App() {
 
     if (competitionType === "league") {
       if (leagueTwoGroupsEnabled) {
-        const leagueGroupsPlan = generateLeagueTwoGroupsMatches(participantRows, {
-          onlineMemberId,
-          groupAssignmentMode: manualGroupAssignmentEnabled ? "manual" : "auto",
-          manualGroups: manualGroupAssignmentEnabled ? manualGroups : {},
-        });
+        const leagueGroupsPlan = generateLeagueTwoGroupsMatches(participantRows, { onlineMemberId });
         matches = leagueGroupsPlan.matches;
         gameQuota = leagueGroupsPlan.gameQuota;
         competitionParticipants = leagueGroupsPlan.participants || participantRows;
@@ -3190,7 +2523,6 @@ export default function App() {
             image: avatar(`متأهل ${index + 1}`),
             order: participantRows.length + index + 1,
             seed: participantRows.length + index + 1,
-            tieBreakFinalMode,
             status: "pending_qualifier",
             isLeagueQualifierWinnerSlot: true,
             qualifierWinnerIndex: index + 1,
@@ -3240,12 +2572,7 @@ export default function App() {
       gameQuota = { ...(superCupPlan.gameQuota || {}), format: "single_final" };
       standings = [];
     } else if (competitionType === "world_cup") {
-      const worldCupPlan = generateWorldCupMatches(participantRows, {
-        onlineMemberId,
-        enableQualifiers: worldCupQualifiersEnabled,
-        groupAssignmentMode: manualGroupAssignmentEnabled ? "manual" : "auto",
-        manualGroups: manualGroupAssignmentEnabled ? manualGroups : {},
-      });
+      const worldCupPlan = generateWorldCupMatches(participantRows, { onlineMemberId, enableQualifiers: worldCupQualifiersEnabled });
       matches = worldCupPlan.matches;
       gameQuota = worldCupPlan.gameQuota;
       competitionParticipants = worldCupPlan.participants || participantRows;
@@ -3259,12 +2586,7 @@ export default function App() {
         competitionParticipants = participantRows;
         standings = computeLeagueStandings(participantRows, matches);
       } else {
-        const championsPlan = generateChampionsLeagueMatches(participantRows, {
-          onlineMemberId,
-          enableQualifiers: championsLeagueQualifiersEnabled,
-          groupAssignmentMode: manualGroupAssignmentEnabled ? "manual" : "auto",
-          manualGroups: manualGroupAssignmentEnabled ? manualGroups : {},
-        });
+        const championsPlan = generateChampionsLeagueMatches(participantRows, { onlineMemberId, enableQualifiers: championsLeagueQualifiersEnabled });
         matches = championsPlan.matches;
         gameQuota = championsPlan.gameQuota;
         competitionParticipants = championsPlan.participants || participantRows;
@@ -3296,10 +2618,6 @@ export default function App() {
       roundsMode: competitionType === "league" ? (leagueTwoGroupsEnabled ? "groups_knockout" : roundsMode) : (competitionType === "champions_league" && clSingleGroup) ? roundsMode : competitionType === "super_cup" ? "single_final" : ["world_cup", "champions_league"].includes(competitionType) ? "groups_knockout" : "knockout",
       leagueFormat: competitionType === "league" ? leagueFormat : "",
       championsLeagueFormat: competitionType === "champions_league" ? championsLeagueFormat : "",
-      groupAssignmentMode: manualGroupAssignmentEnabled ? "manual" : "auto",
-      manualGroups: manualGroupAssignmentEnabled ? manualGroups : {},
-      tieBreakFinalMode,
-      tieBreakFinalModeLabel: tieBreakFinalMode === "seed" ? "الحسم حسب التصنيف المسبق" : "الحسم بمباراة فاصلة",
       bracketMode: competitionType === "super_cup" ? "single_final" : competitionType === "cup" ? (cupLinkedLeagueGroupsEnabled ? "linked_league_groups" : cupManualPairingsEnabled ? "manual_knockout" : "seeded_knockout") : competitionType === "world_cup" ? "world_cup_groups_knockout" : (competitionType === "champions_league" && clSingleGroup) ? "champions_league_single_group" : competitionType === "champions_league" ? "champions_league_groups_knockout" : (competitionType === "league_qualifier" ? "qualifier_knockout" : leagueTwoGroupsEnabled ? "league_two_groups_knockout" : "league"),
       cupMode: competitionType === "cup" ? (cupLinkedLeagueGroupsEnabled ? "linked_league_groups" : cupManualPairingsEnabled ? "manual" : "seeded") : "",
       cupLinkedLeagueGroupsEnabled,
@@ -3495,7 +2813,7 @@ export default function App() {
       const matchPhase = clean(match.phase || "");
       const needsPenaltyWinner = !winnerMemberId && (
         competitionType === "league_qualifier" ||
-        (((isKnockoutCompetitionType(competitionType) && !clSingleGroupMode) || leagueGroupsMode) && !((["world_cup", "champions_league"].includes(competitionType) || leagueGroupsMode) && matchPhase === "group"))
+        ((isKnockoutCompetitionType(competitionType) || leagueGroupsMode) && !((["world_cup", "champions_league"].includes(competitionType) || leagueGroupsMode) && matchPhase === "group"))
       );
       if (needsPenaltyWinner) {
         if (hp === null || ap === null || hp === ap) throw new Error("في المباريات الإقصائية، أدخل ركلات الترجيح عند التعادل وحدد فائزًا.");
@@ -3522,7 +2840,7 @@ export default function App() {
       nextMatches = resolveLeagueQualifierDependencies(nextMatches);
     } else if (competitionType === "world_cup") {
       nextMatches = resolveWorldCupDependencies({ ...competition, matches: nextMatches });
-    } else if ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode) {
+    } else if (competitionType === "champions_league" || leagueGroupsMode) {
       nextMatches = resolveChampionsLeagueDependencies({ ...competition, matches: nextMatches });
     } else if (isKnockoutCompetitionType(competitionType)) {
       nextMatches = resolveKnockoutBracketDependencies(nextMatches);
@@ -3531,7 +2849,7 @@ export default function App() {
     const participants = Array.isArray(competition.participants) ? competition.participants : [];
     const isLeagueStyleComp = (competitionType === "league" || competitionType === "mini_league" || clSingleGroupMode) && !leagueGroupsMode;
     const standings = isLeagueStyleComp ? computeLeagueStandings(filterCompetitionParticipantsForCalculation({ ...competition, participants, matches: nextMatches }), filterCompetitionMatchesForCalculation({ ...competition, participants, matches: nextMatches })) : [];
-    const qualifiedMemberIds = competitionType === "league_qualifier" ? computeLeagueQualifierQualifiedIds({ ...competition, matches: nextMatches }) : competitionType === "world_cup" ? computeWorldCupQualifiedIds({ ...competition, matches: nextMatches }) : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode) ? computeChampionsLeagueQualifiedIds({ ...competition, matches: nextMatches }) : clSingleGroupMode ? [] : computeKnockoutQualifiedIds({ ...competition, matches: nextMatches });
+    const qualifiedMemberIds = competitionType === "league_qualifier" ? computeLeagueQualifierQualifiedIds({ ...competition, matches: nextMatches }) : competitionType === "world_cup" ? computeWorldCupQualifiedIds({ ...competition, matches: nextMatches }) : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode) ? computeChampionsLeagueQualifiedIds({ ...competition, matches: nextMatches }) : computeKnockoutQualifiedIds({ ...competition, matches: nextMatches });
     const nextChampion = (isKnockoutCompetitionType(competitionType) && !clSingleGroupMode || leagueGroupsMode) ? getKnockoutChampion({ ...competition, matches: nextMatches }) : null;
     const nextStatus = ((["cup", "super_cup", "world_cup"].includes(competitionType) || (competitionType === "champions_league" && !clSingleGroupMode)) || leagueGroupsMode) && clean(competition.status || "active") === "completed" ? "completed" : "active";
     const nextCompetitionForSync = {
@@ -3590,12 +2908,10 @@ export default function App() {
         updatedAtText: new Date().toISOString(),
       };
     });
-    const clSingleGroupMode = isChampionsLeagueSingleGroup(competition);
-    const resolvedMatches = competitionType === "league_qualifier" ? resolveLeagueQualifierDependencies(nextMatches) : competitionType === "world_cup" ? resolveWorldCupDependencies({ ...competition, matches: nextMatches }) : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode) ? resolveChampionsLeagueDependencies({ ...competition, matches: nextMatches }) : isKnockoutCompetitionType(competitionType) && !clSingleGroupMode ? resolveKnockoutBracketDependencies(nextMatches) : nextMatches;
-    const clearIsLeagueStyleComp = (competitionType === "league" || competitionType === "mini_league" || clSingleGroupMode) && !leagueGroupsMode;
-    const standings = clearIsLeagueStyleComp ? computeLeagueStandings(filterCompetitionParticipantsForCalculation({ ...competition, matches: resolvedMatches }), filterCompetitionMatchesForCalculation({ ...competition, matches: resolvedMatches })) : [];
-    const qualifiedMemberIds = competitionType === "league_qualifier" ? computeLeagueQualifierQualifiedIds({ ...competition, matches: resolvedMatches }) : competitionType === "world_cup" ? computeWorldCupQualifiedIds({ ...competition, matches: resolvedMatches }) : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode) ? computeChampionsLeagueQualifiedIds({ ...competition, matches: resolvedMatches }) : clSingleGroupMode ? [] : computeKnockoutQualifiedIds({ ...competition, matches: resolvedMatches });
-    const nextChampion = ((isKnockoutCompetitionType(competitionType) && !clSingleGroupMode) || leagueGroupsMode) ? getKnockoutChampion({ ...competition, matches: resolvedMatches }) : null;
+    const resolvedMatches = competitionType === "league_qualifier" ? resolveLeagueQualifierDependencies(nextMatches) : competitionType === "world_cup" ? resolveWorldCupDependencies({ ...competition, matches: nextMatches }) : (competitionType === "champions_league" || leagueGroupsMode) ? resolveChampionsLeagueDependencies({ ...competition, matches: nextMatches }) : isKnockoutCompetitionType(competitionType) ? resolveKnockoutBracketDependencies(nextMatches) : nextMatches;
+    const standings = competitionType === "league" && !leagueGroupsMode ? computeLeagueStandings(filterCompetitionParticipantsForCalculation({ ...competition, matches: resolvedMatches }), filterCompetitionMatchesForCalculation({ ...competition, matches: resolvedMatches })) : [];
+    const qualifiedMemberIds = competitionType === "league_qualifier" ? computeLeagueQualifierQualifiedIds({ ...competition, matches: resolvedMatches }) : competitionType === "world_cup" ? computeWorldCupQualifiedIds({ ...competition, matches: resolvedMatches }) : (competitionType === "champions_league" || leagueGroupsMode) ? computeChampionsLeagueQualifiedIds({ ...competition, matches: resolvedMatches }) : computeKnockoutQualifiedIds({ ...competition, matches: resolvedMatches });
+    const nextChampion = (isKnockoutCompetitionType(competitionType) || leagueGroupsMode) ? getKnockoutChampion({ ...competition, matches: resolvedMatches }) : null;
     const nextStatus = (["cup", "super_cup", "world_cup", "champions_league"].includes(competitionType) || leagueGroupsMode) && clean(competition.status || "active") === "completed" ? "completed" : "active";
     const nextCompetitionForSync = {
       ...competition,
@@ -3603,8 +2919,8 @@ export default function App() {
       standings,
       qualifiedMemberIds,
       status: nextStatus,
-      championMemberId: nextChampion?.memberId || (clearIsLeagueStyleComp ? "" : competition.championMemberId || ""),
-      championMemberName: nextChampion?.memberName || (clearIsLeagueStyleComp ? "" : competition.championMemberName || ""),
+      championMemberId: nextChampion?.memberId || "",
+      championMemberName: nextChampion?.memberName || "",
     };
     await updateDoc(doc(db, "competitions", competitionId), {
       matches: nextCompetitionForSync.matches,
@@ -3740,24 +3056,23 @@ export default function App() {
       resolvedMatches = resolveLeagueQualifierDependencies(resolvedMatches);
     } else if (competitionType === "world_cup") {
       resolvedMatches = resolveWorldCupDependencies(nextCompetitionBase);
-    } else if ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode) {
+    } else if (competitionType === "champions_league" || leagueGroupsMode) {
       resolvedMatches = resolveChampionsLeagueDependencies(nextCompetitionBase);
     } else if (isKnockoutCompetitionType(competitionType)) {
       resolvedMatches = resolveKnockoutBracketDependencies(resolvedMatches);
     }
 
     const resolvedCompetition = { ...nextCompetitionBase, matches: resolvedMatches };
-    const absenceIsLeagueStyleComp = (competitionType === "league" || competitionType === "mini_league" || clSingleGroupMode) && !leagueGroupsMode;
-    const standings = absenceIsLeagueStyleComp
+    const standings = competitionType === "league" && !leagueGroupsMode
       ? computeLeagueStandings(filterCompetitionParticipantsForCalculation(resolvedCompetition), filterCompetitionMatchesForCalculation(resolvedCompetition))
       : [];
     const qualifiedMemberIds = competitionType === "league_qualifier"
       ? computeLeagueQualifierQualifiedIds(resolvedCompetition)
       : competitionType === "world_cup"
         ? computeWorldCupQualifiedIds(resolvedCompetition)
-        : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode)
+        : (competitionType === "champions_league" || leagueGroupsMode)
           ? computeChampionsLeagueQualifiedIds(resolvedCompetition)
-          : clSingleGroupMode ? [] : computeKnockoutQualifiedIds(resolvedCompetition);
+          : computeKnockoutQualifiedIds(resolvedCompetition);
 
     const updatePayload = {
       participants: resolvedCompetition.participants,
@@ -3811,68 +3126,6 @@ export default function App() {
       adminNoteUpdatedBy: authUser?.uid || "",
       adminNoteUpdatedByMemberId: currentMemberId || "FIFA",
       updatedAt: serverTimestamp(),
-    });
-  }
-
-  async function updateFifaCompetitionTieBreakDecision({ competitionId, key = "", scope = "table", groupKey = "main", groupName = "", tieKey = "", memberOrder = [], note = "" } = {}) {
-    if (!isFifaAdmin) throw new Error("هذه الصلاحية مخصصة لحساب FIFA فقط.");
-    const id = cleanId(competitionId || "");
-    if (!id) throw new Error("اختر البطولة أولًا.");
-    const competition = firebaseCompetitions.find((item) => same(item.id, id));
-    if (!competition) throw new Error("البطولة غير موجودة.");
-    const order = Array.isArray(memberOrder) ? memberOrder.map(cleanId).filter(Boolean) : [];
-    if (order.length < 2 || new Set(order).size !== order.length) throw new Error("رتّب كل أعضاء الفاصلة بدون تكرار.");
-    const safeScope = clean(scope || "table") || "table";
-    const safeGroupKey = cleanId(groupKey || "main") || "main";
-    const safeTieKey = String(tieKey || "");
-    if (!safeTieKey) throw new Error("تعذر تحديد حالة التعادل.");
-    const decisionKey = key || tieBreakDecisionKey(safeScope, safeGroupKey, safeTieKey);
-    const existingDecisions = normalizeTieBreakDecisions(competition);
-    const nextDecision = {
-      key: decisionKey,
-      scope: safeScope,
-      groupKey: safeGroupKey,
-      groupName: groupName || "",
-      tieKey: safeTieKey,
-      memberOrder: order,
-      note: String(note || "").trim(),
-      decidedAtText: new Date().toISOString(),
-      decidedByMemberId: currentMemberId || "FIFA",
-      decidedByName: authProfile?.memberName || authProfile?.username || "FIFA",
-    };
-    const nextDecisions = [...existingDecisions.filter((item) => item.key !== decisionKey), nextDecision];
-    const nextCompetition = { ...competition, tieBreakDecisions: nextDecisions };
-    const competitionType = competitionTypeKey(competition.type || "league");
-    const leagueGroupsMode = isLeagueGroupsCompetition(nextCompetition);
-    const clSingleGroupMode = isChampionsLeagueSingleGroup(nextCompetition);
-    const resolvedMatches = competitionType === "world_cup"
-      ? resolveWorldCupDependencies(nextCompetition)
-      : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode)
-        ? resolveChampionsLeagueDependencies(nextCompetition)
-        : Array.isArray(nextCompetition.matches)
-          ? nextCompetition.matches
-          : [];
-    const competitionForCalc = { ...nextCompetition, matches: resolvedMatches };
-    const isLeagueStyleComp = (competitionType === "league" || competitionType === "mini_league" || clSingleGroupMode) && !leagueGroupsMode;
-    const standings = isLeagueStyleComp
-      ? computeLeagueStandings(filterCompetitionParticipantsForCalculation(competitionForCalc), filterCompetitionMatchesForCalculation(competitionForCalc))
-      : [];
-    const qualifiedMemberIds = competitionType === "world_cup"
-      ? computeWorldCupQualifiedIds(competitionForCalc)
-      : ((competitionType === "champions_league" && !clSingleGroupMode) || leagueGroupsMode)
-        ? computeChampionsLeagueQualifiedIds(competitionForCalc)
-        : competitionType === "league_qualifier"
-          ? computeLeagueQualifierQualifiedIds(competitionForCalc)
-          : clSingleGroupMode
-            ? []
-            : computeKnockoutQualifiedIds(competitionForCalc);
-    await updateDoc(doc(db, "competitions", id), {
-      tieBreakDecisions: nextDecisions,
-      matches: resolvedMatches,
-      standings,
-      qualifiedMemberIds,
-      updatedAt: serverTimestamp(),
-      lastTieBreakDecisionAt: serverTimestamp(),
     });
   }
 
@@ -4363,15 +3616,8 @@ export default function App() {
     [seasons, allTournaments, trophyMap]
   );
   const seasonRanking = useMemo(
-    () => computeSeasonPointsRanking({
-      members: activeMembers,
-      competitions: firebaseCompetitions,
-      sheetSeasonRows: activeSeasonRows,
-      activeSeasonId,
-      pointsRules,
-      competitionPriority,
-    }),
-    [activeMembers, firebaseCompetitions, activeSeasonRows, activeSeasonId, pointsRules, competitionPriority]
+    () => computeSeasonRanking(activeMembers, activeSeasonRows, trophyMap),
+    [activeMembers, activeSeasonRows, trophyMap]
   );
   const firebaseTransferRows = useMemo(
     () => normalizeFirebaseTransferRows(firebaseTransferHistory),
@@ -4566,8 +3812,6 @@ export default function App() {
       scrollTop: getCurrentScrollTop(),
     };
 
-    try { window.history.pushState({ fifaGroupProfile: true }, ""); } catch {}
-
     setPage("members");
     setSelectedId(id);
     setMemberTab(tabId || "players");
@@ -4748,8 +3992,8 @@ export default function App() {
     const proCount = countMemberProPlayers(fromMemberId);
     // الحد الأقصى للمحترفين يُحسب من القائمة الفعلية الحالية فقط.
     // لا نضيف عروضًا قديمة/معلقة هنا حتى لا يبقى لاعب خرج من القائمة محسوبًا ضمن حد 5 محترفين.
-    if (proLimitExceeded(proCount - offeredProLeavingCount + (createsProPlayer ? 1 : 0))) {
-      throw new Error("لا يمكنك إتمام الصفقة، ستتجاوز الحد الأقصى للمحترفين (" + maxProfessionalPlayersLabel + ") حسب قائمتك الحالية.");
+    if (proCount - offeredProLeavingCount + (createsProPlayer ? 1 : 0) > MAX_PRO_PLAYERS) {
+      throw new Error("لا يمكنك إتمام الصفقة، ستتجاوز الحد الأقصى للمحترفين (5) حسب قائمتك الحالية.");
     }
 
     const alreadyBlocking = firebasePlayerOffers.some((offer) =>
@@ -4898,8 +4142,8 @@ export default function App() {
       const kind = row ? getRosterPlayerKind(row, fromMemberId) : "base";
       return sum + (kind === "pro_owned" || kind === "pro_loan" ? 1 : 0);
     }, 0);
-    if (proLimitExceeded(countMemberProPlayers(fromMemberId) - offeredProLeavingCount + (createsProPlayer ? 1 : 0))) {
-      throw new Error("لا يمكن تعديل العرض لأنه سيتجاوز الحد الأقصى للمحترفين (" + maxProfessionalPlayersLabel + ") حسب قائمتك الحالية.");
+    if (countMemberProPlayers(fromMemberId) - offeredProLeavingCount + (createsProPlayer ? 1 : 0) > MAX_PRO_PLAYERS) {
+      throw new Error("لا يمكن تعديل العرض لأنه سيتجاوز الحد الأقصى للمحترفين (5) حسب قائمتك الحالية.");
     }
 
     if (contractType === "loan" && ![2, 4, 6].includes(toNumber(payload?.loanDurationMonths))) {
@@ -5111,11 +4355,11 @@ export default function App() {
     const sellerPendingProDelta = getPendingAcceptedProDeltaForMember(sellerId, offerId);
     const buyerProAfterDeal = countMemberProPlayers(buyerId) + buyerPendingProDelta - offeredProLeavingBuyer + targetProEnteringBuyer;
     const sellerProAfterDeal = countMemberProPlayers(sellerId) + sellerPendingProDelta - targetProLeavingSeller + offeredProEnteringSeller;
-    if (proLimitExceeded(buyerProAfterDeal)) {
-      throw new Error("لا يمكن قبول العرض لأن مقدم العرض سيتجاوز الحد الأقصى للمحترفين (" + maxProfessionalPlayersLabel + ") بعد احتساب الصفقات المعلقة.");
+    if (buyerProAfterDeal > MAX_PRO_PLAYERS) {
+      throw new Error("لا يمكن قبول العرض لأن مقدم العرض سيتجاوز الحد الأقصى للمحترفين (5) بعد احتساب الصفقات المعلقة.");
     }
-    if (proLimitExceeded(sellerProAfterDeal)) {
-      throw new Error("لا يمكن قبول العرض لأن صاحب اللاعب سيتجاوز الحد الأقصى للمحترفين (" + maxProfessionalPlayersLabel + ") بسبب لاعبي التبادل أو الصفقات المعلقة.");
+    if (sellerProAfterDeal > MAX_PRO_PLAYERS) {
+      throw new Error("لا يمكن قبول العرض لأن صاحب اللاعب سيتجاوز الحد الأقصى للمحترفين (5) بسبب لاعبي التبادل أو الصفقات المعلقة.");
     }
 
     await deactivateOfferNotifications(offerId, "offer_accepted");
@@ -6380,89 +5624,36 @@ export default function App() {
     menuOpen,
   });
 
-  function releaseBackLock(delay = 260) {
-    window.setTimeout(() => {
-      backLockRef.current = false;
-    }, delay);
-  }
-
-  function performStableBack({ fromNative = false } = {}) {
-    if (backLockRef.current) {
-      return;
-    }
-    backLockRef.current = true;
-
-    const state = navStateRef.current || {
-      page,
-      selectedId,
-      detailView,
-      detailStack,
-      menuOpen,
-      infoModal,
-      notificationsOpen,
-    };
-
-    const nativeBack = Boolean(fromNative);
-    const runAfterNativeSwipe = (fn) => {
-      if (!nativeBack) {
-        fn();
-        return;
-      }
-      const run = () => requestAnimationFrame(fn);
-      window.setTimeout(run, 90);
-      window.setTimeout(run, 220);
-      window.setTimeout(run, 420);
-    };
-    const finish = () => releaseBackLock(nativeBack ? 680 : 260);
-
-    if (state.infoModal) {
+  function handleTopBack() {
+    if (infoModal) {
       setInfoModal(null);
-      finish();
+      try {
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+      } catch {}
       return;
     }
 
-    if (state.notificationsOpen) {
-      setNotificationsOpen(false);
-      finish();
-      return;
-    }
-
-    if (state.menuOpen) {
+    if (menuOpen) {
       setMenuOpen(false);
-      finish();
+      try {
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+      } catch {}
       return;
     }
 
-    if (state.detailView) {
-      const stack = Array.isArray(state.detailStack) ? state.detailStack : [];
-      if (stack.length) {
-        const previousEntry = stack[stack.length - 1];
-        setDetailStack((currentStack) => currentStack.slice(0, -1));
-        setDetailView(previousEntry.view);
-        runAfterNativeSwipe(() => restoreScrollPosition(previousEntry.scrollTop));
-      } else {
-        setDetailView(null);
-        runAfterNativeSwipe(() => restoreScrollPosition(baseScrollRef.current || 0));
-      }
-      finish();
+    if (detailView) {
+      closeView();
+      try {
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+      } catch {}
       return;
     }
 
-    if (state.selectedId) {
-      const previous = memberReturnRef.current || {};
-      memberReturnRef.current = null;
-      setPage(previous.page || "home");
-      setSelectedId(previous.selectedId || "");
-      setMemberTab(previous.memberTab || "players");
-      setSearch(previous.search || "");
-      setFocusedCompetitionId(previous.focusedCompetitionId || "");
-      setDetailView(null);
-      setDetailStack([]);
-      setInfoModal(null);
-      setNotificationsOpen(false);
-      setMenuOpen(false);
-      runAfterNativeSwipe(() => restoreScrollPosition(previous.scrollTop || 0));
-      finish();
+    if (selectedId) {
+      closePublicMemberProfile();
+      try {
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+      } catch {}
       return;
     }
 
@@ -6478,34 +5669,18 @@ export default function App() {
       setDetailView(null);
       setDetailStack([]);
       setInfoModal(null);
-      setNotificationsOpen(false);
       setMenuOpen(false);
-      runAfterNativeSwipe(() => restoreScrollPosition(prev.scrollTop || 0));
-      finish();
+      restoreScrollPosition(prev.scrollTop || 0);
+      try { window.history.replaceState({ fifaGroupRoot: true }, ""); } catch {}
       return;
     }
 
-    if (state.page !== "home") {
-      setPage("home");
-      setSelectedId("");
-      setDetailView(null);
-      setDetailStack([]);
-      setInfoModal(null);
-      setNotificationsOpen(false);
-      setMenuOpen(false);
-      runAfterNativeSwipe(() => scrollAppToTop("auto"));
-      finish();
-      return;
+    if (page !== "home") {
+      goPage("home");
+      try {
+        window.history.replaceState({ fifaGroupRoot: true }, "");
+      } catch {}
     }
-
-    if (fromNative) {
-      try { window.history.pushState({ fifaGroupRoot: true, fifaGroupGuard: true }, ""); } catch {}
-    }
-    finish();
-  }
-
-  function handleTopBack() {
-    performStableBack({ fromNative: false });
   }
 
   async function handleLogout() {
@@ -6686,9 +5861,7 @@ export default function App() {
               players={currentMemberPlayers}
               financeRows={currentMemberFinance}
               trophyGroups={groupMemberTrophies(allTournaments, currentMemberId, trophyMap)}
-              trophyMap={trophyMap}
               stats={finalStatsByMember[cleanId(currentMemberId)] || emptyMemberStats(currentMemberId)}
-              seasonRanking={seasonRanking}
               transferHistory={firebaseTransferRows}
               allPlayerOffers={firebasePlayerOffers}
               allPlayers={players}
@@ -6950,7 +6123,6 @@ export default function App() {
               onClearMatchResult={clearFifaLeagueMatchResult}
               onApplyAbsenceAction={applyFifaCompetitionAbsenceAction}
               onUpdateCompetitionNote={updateFifaCompetitionAdminNote}
-              onUpdateTieBreakDecision={updateFifaCompetitionTieBreakDecision}
             />
           ) : null}
         </>
@@ -7361,10 +6533,6 @@ function buildConfig(rows) {
     archiveTitle:
       raw.archivetitle || raw.archiveTitle || DEFAULT_CONFIG.archiveTitle,
     statsTitle: raw.statstitle || raw.statsTitle || DEFAULT_CONFIG.statsTitle,
-    maxProfessionalPlayers:
-      raw.maxprofessionalplayers ||
-      raw.maxProfessionalPlayers ||
-      DEFAULT_CONFIG.maxProfessionalPlayers,
     transfersSubtitle:
       raw.transferssubtitle ||
       raw.transfersSubtitle ||
@@ -14466,1014 +13634,4 @@ input:focus{
   top:-5px!important;
   left:-5px!important;
 }
-
-/* ===== SAFE FIX: My Profile offers tab must not widen the mobile page ===== */
-.myProfilePage,
-.myProfilePage .myProfilePrimaryContent,
-.myProfilePage .memberDealsPanel,
-.myProfilePage .memberDealList{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  overflow-x:hidden!important;
-  box-sizing:border-box!important;
-}
-.myProfilePage .tabs,
-.myProfilePage .memberDealsPanel .tabs{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  display:flex!important;
-  flex-wrap:nowrap!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior-x:contain!important;
-}
-.myProfilePage .tabBtn{
-  flex:0 0 auto!important;
-  max-width:210px!important;
-}
-.myProfilePage .memberDealCard,
-.myProfilePage .managedOfferCard{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-  overflow:hidden!important;
-}
-.myProfilePage .memberDealCard > div{
-  min-width:0!important;
-  max-width:100%!important;
-  overflow:hidden!important;
-}
-.myProfilePage .memberDealCard strong{
-  min-width:0!important;
-}
-.myProfilePage .miniSwapPlayers{
-  max-width:100%!important;
-  min-width:0!important;
-  overflow:hidden!important;
-}
-.myProfilePage .miniSwapPlayers span{
-  min-width:0!important;
-  max-width:100%!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-  white-space:nowrap!important;
-}
-@media(max-width:720px){
-  .myProfilePage .memberDealsPanel .sectionHead{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    overflow:hidden!important;
-  }
-  .myProfilePage .memberDealsPanel .sectionHead input{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-  }
-  .myProfilePage .memberDealCard,
-  .myProfilePage .managedOfferCard{
-    grid-template-columns:48px minmax(0,1fr)!important;
-  }
-  .myProfilePage .offerCenterActions{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    grid-column:1/-1!important;
-    overflow:hidden!important;
-  }
-  .myProfilePage .offerCenterActions button{
-    min-width:0!important;
-    max-width:100%!important;
-  }
-}
-
-/* COMPACT INTERNAL PAGE HEADER — My Profile first test only */
-.myProfilePage > .pageHead{
-  min-height:auto!important;
-  margin:0 0 14px!important;
-  padding:18px 20px 16px!important;
-  border-radius:24px!important;
-  overflow:hidden!important;
-  background:
-    radial-gradient(circle at 92% 10%,rgba(0,230,118,.16),transparent 42%),
-    linear-gradient(145deg,rgba(4,12,28,.92),rgba(6,15,34,.74))!important;
-  border:1px solid rgba(0,230,118,.16)!important;
-  box-shadow:0 14px 32px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06)!important;
-  text-align:right!important;
-}
-.myProfilePage > .pageHead h2{
-  margin:0!important;
-  font-size:clamp(30px,7vw,44px)!important;
-  line-height:1.05!important;
-  font-weight:1000!important;
-  color:#EDF0FF!important;
-  -webkit-text-fill-color:#EDF0FF!important;
-  letter-spacing:0!important;
-}
-.myProfilePage > .pageHead h2::first-letter{
-  color:#6EE7B7!important;
-  -webkit-text-fill-color:#6EE7B7!important;
-}
-.myProfilePage > .pageHead p{
-  margin:10px 0 0!important;
-  max-width:560px!important;
-  font-size:13px!important;
-  line-height:1.65!important;
-  font-weight:850!important;
-  color:#B8BED8!important;
-  -webkit-text-fill-color:#B8BED8!important;
-}
-.myProfilePage > .pageHead::after{
-  content:""!important;
-  display:block!important;
-  width:54px!important;
-  height:4px!important;
-  border-radius:999px!important;
-  margin-top:14px!important;
-  background:linear-gradient(90deg,#00E676,#00D4FF)!important;
-  box-shadow:0 0 18px rgba(0,230,118,.34)!important;
-}
-@media(max-width:720px){
-  .myProfilePage > .pageHead{
-    padding:15px 16px 14px!important;
-    border-radius:22px!important;
-    margin-bottom:12px!important;
-  }
-  .myProfilePage > .pageHead h2{
-    font-size:clamp(28px,8vw,36px)!important;
-  }
-  .myProfilePage > .pageHead p{
-    font-size:12px!important;
-    line-height:1.6!important;
-    display:-webkit-box!important;
-    -webkit-line-clamp:2!important;
-    -webkit-box-orient:vertical!important;
-    overflow:hidden!important;
-  }
-  .myProfilePage > .pageHead::after{
-    width:46px!important;
-    height:4px!important;
-    margin-top:12px!important;
-  }
-}
-
-
-/* HEADER + MUSEUM SAFE FIXES */
-.topSystemPortalBar,
-.topSystemPortalBar.scrolled{
-  overflow:visible!important;
-}
-.topSystemInner,
-.topSystemInner.titleOnly{
-  height:44px!important;
-  min-height:44px!important;
-  align-items:center!important;
-  overflow:visible!important;
-}
-.topSystemTitle{
-  line-height:1.55!important;
-  padding-top:3px!important;
-  padding-bottom:2px!important;
-  overflow:visible!important;
-  white-space:nowrap!important;
-}
-.topNotifyBtn{
-  overflow:visible!important;
-}
-
-.myProfilePage > .pageHead{
-  min-height:auto!important;
-  margin:0 0 12px!important;
-  padding:14px 16px 13px!important;
-  border-radius:22px!important;
-  overflow:hidden!important;
-  background:
-    radial-gradient(circle at 84% 0%,rgba(0,230,118,.10),transparent 44%),
-    linear-gradient(145deg,rgba(3,10,24,.94),rgba(6,16,34,.82))!important;
-  border:1px solid rgba(0,230,118,.14)!important;
-  box-shadow:0 10px 24px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.055)!important;
-}
-.myProfilePage > .pageHead h2{
-  margin:0!important;
-  font-size:clamp(24px,6.2vw,34px)!important;
-  line-height:1.38!important;
-  font-weight:1000!important;
-  color:#EDF0FF!important;
-  -webkit-text-fill-color:#EDF0FF!important;
-  background:none!important;
-  -webkit-background-clip:initial!important;
-  background-clip:initial!important;
-  white-space:nowrap!important;
-  overflow:visible!important;
-  text-overflow:clip!important;
-}
-.myProfilePage > .pageHead h2::first-letter{
-  color:inherit!important;
-  -webkit-text-fill-color:inherit!important;
-}
-.myProfilePage > .pageHead p{
-  margin:7px 0 0!important;
-  max-width:100%!important;
-  font-size:12px!important;
-  line-height:1.55!important;
-  font-weight:850!important;
-  color:#AEB6D2!important;
-  -webkit-text-fill-color:#AEB6D2!important;
-  display:-webkit-box!important;
-  -webkit-line-clamp:2!important;
-  -webkit-box-orient:vertical!important;
-  overflow:hidden!important;
-}
-.myProfilePage > .pageHead::after{
-  display:none!important;
-  content:none!important;
-}
-
-.museumPage,
-.museumEmbedded{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  overflow:hidden!important;
-  box-sizing:border-box!important;
-}
-.museumEmbedded .museumHero,
-.museumEmbedded .museumGrid,
-.museumEmbedded .museumRecords,
-.museumEmbedded .museumSectionTitle{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-}
-.museumEmbedded .museumTabs{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  display:flex!important;
-  flex-wrap:nowrap!important;
-  gap:8px!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  touch-action:pan-x!important;
-  scrollbar-width:none!important;
-  overscroll-behavior-x:contain!important;
-  padding:0 2px 4px!important;
-  margin:12px 0!important;
-  justify-content:flex-start!important;
-  direction:rtl!important;
-}
-.museumEmbedded .museumTabs::-webkit-scrollbar{
-  display:none!important;
-}
-.museumEmbedded .museumTabs button{
-  flex:0 0 auto!important;
-  white-space:nowrap!important;
-  min-width:max-content!important;
-  max-width:none!important;
-}
-.museumEmbedded .museumCard,
-.museumEmbedded .museumRecord{
-  max-width:100%!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-}
-.museumEmbedded .museumCard h3,
-.museumEmbedded .museumRecord b,
-.museumEmbedded .museumMiniRow b{
-  min-width:0!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-@media(max-width:720px){
-  .topSystemInner,
-  .topSystemInner.titleOnly{
-    height:46px!important;
-    min-height:46px!important;
-  }
-  .topSystemTitle{
-    line-height:1.65!important;
-    padding-top:4px!important;
-    font-size:17px!important;
-  }
-  .myProfilePage > .pageHead{
-    padding:13px 14px 12px!important;
-    border-radius:20px!important;
-  }
-  .myProfilePage > .pageHead h2{
-    font-size:clamp(23px,6.6vw,31px)!important;
-    line-height:1.42!important;
-  }
-  .myProfilePage > .pageHead p{
-    font-size:11.5px!important;
-    line-height:1.5!important;
-  }
-}
-
-
-/* UNIFIED COMPACT INTERNAL PAGE HEADERS — exclude HomePage custom hero */
-.app .widePage > .pageHead,
-.app .widePage.glass > .pageHead{
-  min-height:auto!important;
-  margin:0 0 12px!important;
-  padding:14px 16px 13px!important;
-  border-radius:22px!important;
-  overflow:hidden!important;
-  background:
-    radial-gradient(circle at 84% 0%,rgba(0,230,118,.10),transparent 44%),
-    linear-gradient(145deg,rgba(3,10,24,.94),rgba(6,16,34,.82))!important;
-  border:1px solid rgba(0,230,118,.14)!important;
-  box-shadow:0 10px 24px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.055)!important;
-  text-align:right!important;
-}
-.app .widePage > .pageHead h2,
-.app .widePage.glass > .pageHead h2{
-  margin:0!important;
-  font-size:clamp(24px,6.2vw,34px)!important;
-  line-height:1.38!important;
-  font-weight:1000!important;
-  color:#EDF0FF!important;
-  -webkit-text-fill-color:#EDF0FF!important;
-  background:none!important;
-  -webkit-background-clip:initial!important;
-  background-clip:initial!important;
-  white-space:normal!important;
-  overflow:visible!important;
-  text-overflow:clip!important;
-  letter-spacing:0!important;
-}
-.app .widePage > .pageHead h2::first-letter,
-.app .widePage.glass > .pageHead h2::first-letter{
-  color:inherit!important;
-  -webkit-text-fill-color:inherit!important;
-}
-.app .widePage > .pageHead p,
-.app .widePage.glass > .pageHead p{
-  margin:7px 0 0!important;
-  max-width:100%!important;
-  font-size:12px!important;
-  line-height:1.55!important;
-  font-weight:850!important;
-  color:#AEB6D2!important;
-  -webkit-text-fill-color:#AEB6D2!important;
-  display:-webkit-box!important;
-  -webkit-line-clamp:2!important;
-  -webkit-box-orient:vertical!important;
-  overflow:hidden!important;
-}
-.app .widePage > .pageHead::after,
-.app .widePage.glass > .pageHead::after{
-  display:none!important;
-  content:none!important;
-}
-
-/* Admin-only heroes use the same compact language without touching page logic */
-.app .fifaAdminHero,
-.app .leagueAdminHero{
-  min-height:auto!important;
-  margin:0 0 12px!important;
-  padding:14px 16px 13px!important;
-  border-radius:22px!important;
-  overflow:hidden!important;
-  background:
-    radial-gradient(circle at 84% 0%,rgba(0,230,118,.10),transparent 44%),
-    linear-gradient(145deg,rgba(3,10,24,.94),rgba(6,16,34,.82))!important;
-  border:1px solid rgba(0,230,118,.14)!important;
-  box-shadow:0 10px 24px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.055)!important;
-}
-.app .fifaAdminHero h1,
-.app .fifaAdminHero h2,
-.app .fifaAdminHero h3,
-.app .leagueAdminHero h1,
-.app .leagueAdminHero h2,
-.app .leagueAdminHero h3{
-  margin:0!important;
-  font-size:clamp(24px,6.2vw,34px)!important;
-  line-height:1.38!important;
-  font-weight:1000!important;
-  color:#EDF0FF!important;
-  -webkit-text-fill-color:#EDF0FF!important;
-  background:none!important;
-  -webkit-background-clip:initial!important;
-  background-clip:initial!important;
-  letter-spacing:0!important;
-}
-.app .fifaAdminHero p,
-.app .leagueAdminHero p{
-  margin:7px 0 0!important;
-  max-width:100%!important;
-  font-size:12px!important;
-  line-height:1.55!important;
-  font-weight:850!important;
-  color:#AEB6D2!important;
-  -webkit-text-fill-color:#AEB6D2!important;
-  display:-webkit-box!important;
-  -webkit-line-clamp:2!important;
-  -webkit-box-orient:vertical!important;
-  overflow:hidden!important;
-}
-
-/* Keep HomePage hero untouched */
-.app .hp2Hero,
-.app .hp2Hero *{
-  /* intentionally left to HomePage styles */
-}
-
-@media(max-width:720px){
-  .app .widePage > .pageHead,
-  .app .widePage.glass > .pageHead,
-  .app .fifaAdminHero,
-  .app .leagueAdminHero{
-    padding:13px 14px 12px!important;
-    border-radius:20px!important;
-    margin-bottom:12px!important;
-  }
-  .app .widePage > .pageHead h2,
-  .app .widePage.glass > .pageHead h2,
-  .app .fifaAdminHero h1,
-  .app .fifaAdminHero h2,
-  .app .fifaAdminHero h3,
-  .app .leagueAdminHero h1,
-  .app .leagueAdminHero h2,
-  .app .leagueAdminHero h3{
-    font-size:clamp(23px,6.6vw,31px)!important;
-    line-height:1.42!important;
-  }
-  .app .widePage > .pageHead p,
-  .app .widePage.glass > .pageHead p,
-  .app .fifaAdminHero p,
-  .app .leagueAdminHero p{
-    font-size:11.5px!important;
-    line-height:1.5!important;
-  }
-}
-
-
-/* INTERNAL TABS + ARCHIVE HEADER FIX */
-.app .archiveHubPage > .archiveHubHead.pageHead{
-  display:block!important;
-  position:relative!important;
-  min-height:auto!important;
-  padding:14px 16px 13px!important;
-  border-radius:22px!important;
-  margin:0 0 12px!important;
-  overflow:hidden!important;
-}
-.app .archiveHubPage > .archiveHubHead.pageHead h2{
-  font-size:clamp(24px,6.2vw,34px)!important;
-  line-height:1.38!important;
-  margin:0!important;
-  white-space:normal!important;
-  overflow:visible!important;
-}
-.app .archiveHubPage > .archiveHubHead.pageHead p{
-  margin:7px 0 0!important;
-  padding:0!important;
-  max-width:100%!important;
-  font-size:12px!important;
-  line-height:1.55!important;
-  -webkit-line-clamp:1!important;
-}
-.app .archiveHubPage .archiveTotalBadge{
-  position:static!important;
-  inset:auto!important;
-  transform:none!important;
-  margin-top:10px!important;
-  width:auto!important;
-  min-width:96px!important;
-  max-width:max-content!important;
-  height:40px!important;
-  padding:0 16px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:6px!important;
-  border-radius:999px!important;
-  background:rgba(0,230,118,.10)!important;
-  border:1px solid rgba(0,230,118,.22)!important;
-  box-shadow:none!important;
-}
-.app .archiveHubPage .archiveTotalBadge b{
-  font-size:24px!important;
-  line-height:1!important;
-  color:#00E676!important;
-  -webkit-text-fill-color:#00E676!important;
-}
-.app .archiveHubPage .archiveTotalBadge small{
-  font-size:11px!important;
-  font-weight:900!important;
-  color:#AEB6D2!important;
-  -webkit-text-fill-color:#AEB6D2!important;
-  white-space:nowrap!important;
-}
-
-/* One visual language for inner page tabs */
-.app .tabs,
-.app .archiveModeTabs,
-.app .museumTabs{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  flex-wrap:nowrap!important;
-  gap:8px!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  scrollbar-width:none!important;
-  touch-action:pan-x!important;
-  overscroll-behavior-x:contain!important;
-  justify-content:flex-start!important;
-  direction:rtl!important;
-  padding:6px!important;
-  margin:12px 0 14px!important;
-  border-radius:22px!important;
-  background:rgba(2,6,23,.34)!important;
-  border:1px solid rgba(255,255,255,.06)!important;
-}
-.app .tabs::-webkit-scrollbar,
-.app .archiveModeTabs::-webkit-scrollbar,
-.app .museumTabs::-webkit-scrollbar{
-  display:none!important;
-}
-.app .tabs button,
-.app .archiveModeTabs button,
-.app .museumTabs button,
-.app .tabBtn{
-  flex:0 0 auto!important;
-  min-width:max-content!important;
-  max-width:none!important;
-  height:44px!important;
-  min-height:44px!important;
-  padding:0 16px!important;
-  border-radius:18px!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  background:linear-gradient(145deg,rgba(15,23,42,.78),rgba(2,6,23,.60))!important;
-  color:#D8DDF2!important;
-  -webkit-text-fill-color:#D8DDF2!important;
-  font-size:13px!important;
-  font-weight:1000!important;
-  white-space:nowrap!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.055)!important;
-}
-.app .tabs button.active,
-.app .archiveModeTabs button.active,
-.app .museumTabs button.active,
-.app .tabBtn.active{
-  color:#021018!important;
-  -webkit-text-fill-color:#021018!important;
-  border-color:rgba(0,230,118,.18)!important;
-  background:linear-gradient(135deg,#00E676,#00D4FF)!important;
-  box-shadow:0 10px 24px rgba(0,230,118,.18),inset 0 1px 0 rgba(255,255,255,.20)!important;
-}
-@media(max-width:720px){
-  .app .tabs,
-  .app .archiveModeTabs,
-  .app .museumTabs{
-    gap:7px!important;
-    padding:5px!important;
-    border-radius:20px!important;
-    margin:10px 0 12px!important;
-  }
-  .app .tabs button,
-  .app .archiveModeTabs button,
-  .app .museumTabs button,
-  .app .tabBtn{
-    height:40px!important;
-    min-height:40px!important;
-    padding:0 14px!important;
-    border-radius:16px!important;
-    font-size:12.5px!important;
-  }
-}
-
-
-/* REMOVE PAGE HEADER SUBTITLES — cleaner internal headers */
-.app .widePage > .pageHead p,
-.app .widePage.glass > .pageHead p,
-.app .fifaAdminHero p,
-.app .leagueAdminHero p{
-  display:none!important;
-  content:none!important;
-  margin:0!important;
-  height:0!important;
-  max-height:0!important;
-  overflow:hidden!important;
-}
-.app .widePage > .pageHead,
-.app .widePage.glass > .pageHead,
-.app .fifaAdminHero,
-.app .leagueAdminHero{
-  padding:13px 16px!important;
-}
-.app .archiveHubPage .archiveTotalBadge{
-  margin-top:9px!important;
-}
-@media(max-width:720px){
-  .app .widePage > .pageHead,
-  .app .widePage.glass > .pageHead,
-  .app .fifaAdminHero,
-  .app .leagueAdminHero{
-    padding:12px 14px!important;
-  }
-  .app .archiveHubPage .archiveTotalBadge{
-    margin-top:8px!important;
-  }
-}
-
-
-/* TOP BAR ICON CONSISTENCY + NOTIFICATION CLIP FIX */
-.topSystemPortalBar,
-.topSystemPortalBar.scrolled{
-  overflow:visible!important;
-}
-.topSystemInner,
-.topSystemInner.titleOnly{
-  height:46px!important;
-  min-height:46px!important;
-  align-items:center!important;
-  overflow:visible!important;
-  padding-top:2px!important;
-  box-sizing:border-box!important;
-}
-
-/* Make notification and back buttons share the same app-green visual language */
-.topNotifyBtn,
-.topSystemBackBtn{
-  width:36px!important;
-  min-width:36px!important;
-  height:36px!important;
-  min-height:36px!important;
-  max-width:36px!important;
-  max-height:36px!important;
-  padding:0!important;
-  border-radius:999px!important;
-  border:1px solid rgba(0,230,118,.32)!important;
-  background:rgba(0,230,118,.10)!important;
-  color:#00E676!important;
-  -webkit-text-fill-color:#00E676!important;
-  box-shadow:0 10px 26px rgba(0,0,0,.28),0 0 18px rgba(0,230,118,.10)!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  line-height:1!important;
-  overflow:visible!important;
-  box-sizing:border-box!important;
-}
-
-/* Bell SVG was visually clipped on iOS; keep it centered and fully visible */
-.topNotifyBtn svg,
-.topNotifyBtn .lucide,
-.topNotifyBtn i{
-  width:20px!important;
-  height:20px!important;
-  min-width:20px!important;
-  min-height:20px!important;
-  display:block!important;
-  overflow:visible!important;
-  color:#00E676!important;
-  stroke:currentColor!important;
-  fill:none!important;
-  transform:translateY(1.5px)!important;
-}
-
-/* Keep the red count badge untouched except for safe placement */
-.topNotifyBtn .badge,
-.topNotifyBtn .notificationBadge,
-.topNotifyBtn .notifBadge,
-.topNotifyBtn [class*="badge"],
-.topNotifyBtn [class*="Badge"]{
-  -webkit-text-fill-color:#fff!important;
-  color:#fff!important;
-  transform:none!important;
-  z-index:3!important;
-}
-
-/* Back arrow remains centered and same color as notification icon */
-.topSystemBackBtn span{
-  color:#00E676!important;
-  -webkit-text-fill-color:#00E676!important;
-  display:block!important;
-  line-height:1!important;
-  transform:translateX(1px)!important;
-}
-
-/* Mobile top bar final spacing */
-@media(max-width:720px){
-  .topSystemInner,
-  .topSystemInner.titleOnly{
-    height:46px!important;
-    min-height:46px!important;
-    grid-template-columns:38px minmax(0,1fr) 38px!important;
-    gap:8px!important;
-    padding-top:2px!important;
-  }
-  .topNotifyBtn,
-  .topSystemBackBtn,
-  .topSystemBackSpacer{
-    width:36px!important;
-    min-width:36px!important;
-    height:36px!important;
-    min-height:36px!important;
-  }
-  .topSystemTitle{
-    line-height:1.65!important;
-    padding-top:3px!important;
-    overflow:visible!important;
-  }
-}
-
-
-/* INTERNAL PAGE VERTICAL RHYTHM COMPACT FIX */
-.app .widePage,
-.app .widePage.glass{
-  row-gap:10px!important;
-}
-
-/* Make internal headers compact after removing subtitles */
-.app .widePage > .pageHead,
-.app .widePage.glass > .pageHead,
-.app .fifaAdminHero,
-.app .leagueAdminHero{
-  margin-bottom:6px!important;
-  padding-top:10px!important;
-  padding-bottom:10px!important;
-  min-height:0!important;
-}
-
-.app .widePage > .pageHead h2,
-.app .widePage.glass > .pageHead h2,
-.app .fifaAdminHero h1,
-.app .fifaAdminHero h2,
-.app .fifaAdminHero h3,
-.app .leagueAdminHero h1,
-.app .leagueAdminHero h2,
-.app .leagueAdminHero h3{
-  line-height:1.22!important;
-}
-
-/* Kill duplicated top margins immediately after the page header */
-.app .widePage > .pageHead + *,
-.app .widePage.glass > .pageHead + *,
-.app .fifaAdminHero + *,
-.app .leagueAdminHero + *{
-  margin-top:0!important;
-}
-
-/* Internal tab rows should sit close to the header and consume less height */
-.app .tabs,
-.app .archiveModeTabs,
-.app .museumTabs{
-  margin-top:6px!important;
-  margin-bottom:8px!important;
-  padding-top:4px!important;
-  padding-bottom:4px!important;
-  min-height:0!important;
-}
-
-.app .tabs button,
-.app .archiveModeTabs button,
-.app .museumTabs button,
-.app .tabBtn{
-  height:38px!important;
-  min-height:38px!important;
-  padding-top:0!important;
-  padding-bottom:0!important;
-}
-
-/* Reduce common section-card gaps on internal pages without changing HomePage */
-.app .widePage > .tabs + *,
-.app .widePage > .archiveModeTabs + *,
-.app .widePage > .museumTabs + *,
-.app .widePage.glass > .tabs + *,
-.app .widePage.glass > .archiveModeTabs + *,
-.app .widePage.glass > .museumTabs + *{
-  margin-top:8px!important;
-}
-
-.app .widePage .sectionHead,
-.app .widePage.glass .sectionHead,
-.app .widePage .archiveSectionHead,
-.app .widePage.glass .archiveSectionHead{
-  margin-top:10px!important;
-  margin-bottom:8px!important;
-}
-
-/* Profile / transfer / studio panels had old large rhythm after the header */
-.app .myProfilePage > .glassSoft,
-.app .myProfilePage > .profileHero,
-.app .myProfilePage > .profileSummary,
-.app .transferPage > .glassSoft,
-.app .studioPage > .glassSoft,
-.app .seasonHubPage > .glassSoft,
-.app .statsPage > .glassSoft,
-.app .archiveHubPage > .glassSoft{
-  margin-top:8px!important;
-}
-
-/* Keep HomePage spacing untouched */
-.app .homePage,
-.app .homePage *,
-.app .hp2Hero,
-.app .hp2Hero *{
-  /* no override */
-}
-
-@media(max-width:720px){
-  .app .widePage,
-  .app .widePage.glass{
-    row-gap:8px!important;
-  }
-  .app .widePage > .pageHead,
-  .app .widePage.glass > .pageHead,
-  .app .fifaAdminHero,
-  .app .leagueAdminHero{
-    margin-bottom:5px!important;
-    padding-top:9px!important;
-    padding-bottom:9px!important;
-  }
-  .app .tabs,
-  .app .archiveModeTabs,
-  .app .museumTabs{
-    margin-top:5px!important;
-    margin-bottom:7px!important;
-    padding-top:4px!important;
-    padding-bottom:4px!important;
-  }
-  .app .tabs button,
-  .app .archiveModeTabs button,
-  .app .museumTabs button,
-  .app .tabBtn{
-    height:36px!important;
-    min-height:36px!important;
-  }
-}
-
-
-/* ACTIVE TITLE CLIP + COMPACT INNER SECTION HEADS + LINKS ICON SUPPORT */
-.fgMemberLegacyHead,
-.fgMemberLegacyHead h3{
-  overflow:visible!important;
-}
-.fgMemberLegacyHead h3{
-  line-height:1.42!important;
-  padding-top:4px!important;
-  padding-bottom:5px!important;
-  margin-top:-2px!important;
-  letter-spacing:0!important;
-}
-
-/* Home active members title can clip Arabic dots when gradient text is tight */
-.hp2MembersTitle,
-.hp2SectionTitle,
-.hp2SectionHead h2,
-.homeMembersTitle,
-.homeActiveMembersTitle{
-  line-height:1.42!important;
-  padding-top:4px!important;
-  padding-bottom:5px!important;
-  overflow:visible!important;
-}
-
-/* Compact subsection headers; these are not page headers */
-.app .widePage .sectionHead.compact,
-.app .widePage.glass .sectionHead.compact,
-.app .widePage .archiveSectionHead,
-.app .widePage.glass .archiveSectionHead{
-  min-height:0!important;
-  height:auto!important;
-  margin:8px 0 8px!important;
-  padding:10px 12px!important;
-  border-radius:18px!important;
-  background:linear-gradient(145deg,rgba(4,12,28,.72),rgba(2,6,23,.54))!important;
-  border:1px solid rgba(0,230,118,.12)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;
-}
-.app .widePage .sectionHead.compact h3,
-.app .widePage.glass .sectionHead.compact h3,
-.app .widePage .archiveSectionHead h3,
-.app .widePage.glass .archiveSectionHead h3{
-  margin:0!important;
-  font-size:clamp(18px,4.4vw,24px)!important;
-  line-height:1.32!important;
-  font-weight:1000!important;
-  color:#EDF0FF!important;
-  -webkit-text-fill-color:#EDF0FF!important;
-  background:none!important;
-  -webkit-background-clip:initial!important;
-  background-clip:initial!important;
-  padding:0!important;
-  white-space:normal!important;
-  overflow:visible!important;
-}
-.app .widePage .sectionHead.compact p,
-.app .widePage.glass .sectionHead.compact p,
-.app .widePage .archiveSectionHead p,
-.app .widePage.glass .archiveSectionHead p{
-  display:none!important;
-  margin:0!important;
-  height:0!important;
-  overflow:hidden!important;
-}
-
-/* Studio specific: keep "اختيار القالب" as a small section label, not a hero */
-.app .fifaStudioPage .studioPanel .sectionHead.compact{
-  margin-bottom:8px!important;
-}
-.app .fifaStudioPage .studioPanel .sectionHead.compact h3{
-  font-size:clamp(18px,4vw,23px)!important;
-}
-
-/* Archive: keep "السجل حسب البطولة" compact */
-.app .archiveHubPage .archiveSectionHead{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:10px!important;
-}
-.app .archiveHubPage .archiveSectionHead .secDlBtn{
-  width:38px!important;
-  height:38px!important;
-  min-width:38px!important;
-  min-height:38px!important;
-  border-radius:14px!important;
-}
-
-/* Important links icons */
-.app .linkTile{
-  position:relative!important;
-  overflow:hidden!important;
-}
-.app .linkTile > span{
-  width:42px!important;
-  height:42px!important;
-  border-radius:14px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  background:rgba(0,230,118,.10)!important;
-  border:1px solid rgba(0,230,118,.22)!important;
-  color:#00E676!important;
-  margin-bottom:10px!important;
-  font-size:22px!important;
-  line-height:1!important;
-}
-.app .linkTile .linkFallbackIcon{
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;
-  height:100%!important;
-  font-size:22px!important;
-  line-height:1!important;
-  filter:drop-shadow(0 0 10px rgba(0,230,118,.18));
-}
-.app .linkTile .smartIconImg{
-  width:24px!important;
-  height:24px!important;
-  object-fit:contain!important;
-  display:block!important;
-}
-
-@media(max-width:720px){
-  .fgMemberLegacyHead h3,
-  .hp2MembersTitle,
-  .hp2SectionTitle,
-  .hp2SectionHead h2,
-  .homeMembersTitle,
-  .homeActiveMembersTitle{
-    line-height:1.46!important;
-    padding-top:5px!important;
-    padding-bottom:6px!important;
-  }
-  .app .widePage .sectionHead.compact,
-  .app .widePage.glass .sectionHead.compact,
-  .app .widePage .archiveSectionHead,
-  .app .widePage.glass .archiveSectionHead{
-    margin:7px 0 7px!important;
-    padding:9px 11px!important;
-    border-radius:16px!important;
-  }
-  .app .widePage .sectionHead.compact h3,
-  .app .widePage.glass .sectionHead.compact h3,
-  .app .widePage .archiveSectionHead h3,
-  .app .widePage.glass .archiveSectionHead h3{
-    font-size:clamp(17px,4.8vw,22px)!important;
-    line-height:1.34!important;
-  }
-  .app .linkTile > span{
-    width:40px!important;
-    height:40px!important;
-    border-radius:13px!important;
-    margin-bottom:8px!important;
-  }
-}
-
-
 `;
